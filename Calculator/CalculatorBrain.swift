@@ -21,6 +21,7 @@ struct CalculatorBrain {
         case constant(Double)
         case unary((Double) -> Double)
         case binary((Double, Double) -> Double)
+        case equals
     }
     
     private let operations: Dictionary<String, Operation> = [
@@ -35,7 +36,8 @@ struct CalculatorBrain {
         "÷": Operation.binary(/),
         "+": Operation.binary(+),
         "−": Operation.binary(-),
-        "^": Operation.binary(pow)
+        "^": Operation.binary(pow),
+        "=": Operation.equals
     ]
     
     mutating func performOperation(_ symbol: String) {
@@ -50,7 +52,26 @@ struct CalculatorBrain {
                 accumulator = function(accumulator!)
             }
         case .binary(let function):
-            break
+            if accumulator != nil {
+                pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator!)
+                accumulator = nil
+            }
+        case .equals:
+            if accumulator != nil && pendingBinaryOperation != nil {
+                accumulator = pendingBinaryOperation?.perform(with: accumulator!)
+                pendingBinaryOperation = nil
+            }
+        }
+    }
+    
+    var pendingBinaryOperation: PendingBinaryOperation?
+    
+    struct PendingBinaryOperation {
+        let operation: (Double, Double) -> Double
+        let firstOperand: Double
+        
+        func perform(with secondOperand: Double) -> Double {
+            return operation(firstOperand, secondOperand)
         }
     }
     
