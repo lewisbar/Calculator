@@ -18,7 +18,11 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            display.text = String(newValue)
+            var stringValue = String(newValue)
+            if stringValue.hasSuffix(".0") {
+                stringValue = stringValue.substring(to: stringValue.index(stringValue.endIndex, offsetBy: -2))
+            }
+            display.text = stringValue
         }
     }
     
@@ -26,14 +30,23 @@ class ViewController: UIViewController {
     
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        guard !(digit == "." && (display.text?.contains("."))!) else {
-            return
-        }
+        
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
             display.text = textCurrentlyInDisplay + digit
         } else {
             display.text = digit
+            userIsInTheMiddleOfTyping = true
+        }
+    }
+    
+    @IBAction func touchFloatingPoint(_ sender: UIButton) {
+        if userIsInTheMiddleOfTyping {
+            if !(display.text?.contains("."))! {
+                display.text = display.text! + "."
+            }
+        } else {
+            display.text = "0."
             userIsInTheMiddleOfTyping = true
         }
     }
