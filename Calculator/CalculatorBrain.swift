@@ -41,9 +41,8 @@ struct CalculatorBrain {
     ]
     
     mutating func performOperation(_ symbol: String) {
-        guard let operation = operations[symbol] else {
-            return
-        }
+        let operation = operations[symbol]!
+        
         switch operation {
         case .constant(let value):
             accumulator = value
