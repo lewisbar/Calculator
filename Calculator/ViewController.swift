@@ -18,11 +18,8 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            var stringValue = String(newValue)
-            if stringValue.hasSuffix(".0") {
-                stringValue = stringValue.substring(to: stringValue.index(stringValue.endIndex, offsetBy: -2))
-            }
-            display.text = stringValue
+            let stringValue = String(newValue)
+            display.text = formatForDisplay(stringValue)
         }
     }
     
@@ -53,10 +50,8 @@ class ViewController: UIViewController {
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            if (display.text?.hasSuffix("."))! {
-                let indexOfFloatingPoint = (display.text?.index(before: (display.text?.endIndex)!))!
-                display.text = display.text?.substring(to: indexOfFloatingPoint)
-            }
+            let stringValue = String(displayValue)
+            display.text = formatForDisplay(stringValue)
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
         }
@@ -70,6 +65,17 @@ class ViewController: UIViewController {
         brain = CalculatorBrain()
         display.text = "0"
         userIsInTheMiddleOfTyping = false
+    }
+    
+    private func formatForDisplay(_ stringToFormat: String) -> String {
+        var stringToFormat = stringToFormat
+        if stringToFormat.hasSuffix(".0") {
+            stringToFormat = stringToFormat.substring(to: stringToFormat.index(stringToFormat.endIndex, offsetBy: -2))
+        } else if (stringToFormat.hasSuffix(".")) {
+            let indexOfFloatingPoint = (stringToFormat.index(before: (stringToFormat.endIndex)))
+            stringToFormat = stringToFormat.substring(to: indexOfFloatingPoint)
+        }
+        return stringToFormat
     }
 }
 
