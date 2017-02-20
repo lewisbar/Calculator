@@ -53,6 +53,10 @@ class ViewController: UIViewController {
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
+            if (display.text?.hasSuffix("."))! {
+                let indexOfFloatingPoint = (display.text?.index(before: (display.text?.endIndex)!))!
+                display.text = display.text?.substring(to: indexOfFloatingPoint)
+            }
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
         }

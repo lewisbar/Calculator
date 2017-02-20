@@ -31,7 +31,7 @@ struct CalculatorBrain {
         "cos": Operation.unary(cos),
         "tan": Operation.unary(tan),
         "√": Operation.unary(sqrt),
-        "±": Operation.unary({ -$0 }),
+        "±": Operation.unary(-),
         "×": Operation.binary(*),
         "÷": Operation.binary(/),
         "+": Operation.binary(+),
