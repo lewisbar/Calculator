@@ -10,6 +10,7 @@ import Foundation
 
 struct CalculatorBrain {
     private var accumulator: Double?
+    var description = " "
     
     var result: Double? {
         get {
@@ -51,21 +52,28 @@ struct CalculatorBrain {
                 accumulator = function(accumulator!)
             }
         case .binary(let function):
+            performBinaryOperation()
             if accumulator != nil {
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator!)
-                accumulator = nil
             }
         case .equals:
-            if accumulator != nil && pendingBinaryOperation != nil {
-                accumulator = pendingBinaryOperation?.perform(with: accumulator!)
-                pendingBinaryOperation = nil
-            }
+            performBinaryOperation()
         }
     }
     
-    var pendingBinaryOperation: PendingBinaryOperation?
+    private mutating func performBinaryOperation() {
+        if accumulator != nil && resultIsPending {
+            accumulator = pendingBinaryOperation?.perform(with: accumulator!)
+            pendingBinaryOperation = nil
+        }
+    }
     
-    struct PendingBinaryOperation {
+    private var pendingBinaryOperation: PendingBinaryOperation?
+    private var resultIsPending: Bool {
+        return (pendingBinaryOperation != nil)
+    }
+    
+    private struct PendingBinaryOperation {
         let operation: (Double, Double) -> Double
         let firstOperand: Double
         
