@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
@@ -59,11 +60,13 @@ class ViewController: UIViewController {
         if let result = brain.result {
             displayValue = result
         }
+        descriptionLabel.text = brain.description
     }
 
     @IBAction func clear(_ sender: UIButton) {
         brain = CalculatorBrain()
         display.text = "0"
+        descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
     }
     
