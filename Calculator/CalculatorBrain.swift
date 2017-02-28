@@ -48,16 +48,19 @@ struct CalculatorBrain {
         
         switch operation {
         case .constant(let value):
-            let newDescription = resultIsPending ? calculation.description+String(value) : String(value)
+            let oldDescription = calculation.description
+            let newDescription = resultIsPending ?
+                                oldDescription + String(value)
+                                : String(value)
             calculation = (value, newDescription)
         case .unary(let function):
             if let accumulator = calculation.accumulator {
-                if resultIsPending {
-                    calculation.description.append("\(symbol)(\(accumulator)) ")
-                } else {
-                    calculation.description = "\(symbol)(\(calculation.description)) "
-                }
-                calculation.accumulator = function(accumulator)
+                let oldDescription = calculation.description
+                let newDescription = resultIsPending ?
+                                "\(oldDescription)\(symbol)(\(accumulator)) "
+                                : "\(symbol)(\(oldDescription)) "
+                let newAccumulator = function(accumulator)
+                calculation = (newAccumulator, newDescription)
             }
         case .binary(let function):
             performBinaryOperation()
