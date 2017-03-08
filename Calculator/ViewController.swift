@@ -68,15 +68,5 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = false
     }
     
-    private func formatForDisplay(_ stringToFormat: String) -> String {
-        var stringToFormat = stringToFormat
-        if stringToFormat.hasSuffix(".0") {
-            stringToFormat = stringToFormat.substring(to: stringToFormat.index(stringToFormat.endIndex, offsetBy: -2))
-        } else if (stringToFormat.hasSuffix(".")) {
-            let indexOfFloatingPoint = (stringToFormat.index(before: (stringToFormat.endIndex)))
-            stringToFormat = stringToFormat.substring(to: indexOfFloatingPoint)
-        }
-        return stringToFormat
-    }
 }
 
