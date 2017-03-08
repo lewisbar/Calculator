@@ -9,6 +9,7 @@
 import Foundation
 
 extension String {
+    
     public func replacingSuffix(_ oldSuffix: String, with newSuffix: String) -> String {
         let start = self.index(self.endIndex, offsetBy: -oldSuffix.characters.count)
         let end = self.endIndex
@@ -20,4 +21,5 @@ extension String {
         let lastWord = self.components(separatedBy: " ").last!
         return self.replacingSuffix(lastWord, with: "\(part1)\(lastWord)\(part2)")
     }
+    
 }

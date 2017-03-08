@@ -21,7 +21,7 @@ struct CalculatorBrain {
     
     mutating func setOperand(_ operand: Double) {
         let oldDescription = calculation.description
-        let newDescription = resultIsPending ? "\(oldDescription) \(operand)" : "\(operand)"
+        let newDescription = resultIsPending ? "\(oldDescription) \(operand.formatted())" : "\(operand.formatted())"
         calculation = (accumulator: operand, description: newDescription)
     }
     

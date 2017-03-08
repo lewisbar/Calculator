@@ -18,8 +18,7 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            let stringValue = String(newValue)
-            display.text = formatForDisplay(stringValue)
+            display.text = newValue.formatted()
         }
     }
     
@@ -51,8 +50,7 @@ class ViewController: UIViewController {
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            let stringValue = String(displayValue)
-            display.text = formatForDisplay(stringValue)
+            display.text = displayValue.formatted()
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
         }
