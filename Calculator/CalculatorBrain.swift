@@ -9,39 +9,21 @@
 import Foundation
 
 struct CalculatorBrain {
-
-    private var calculation: (accumulator: Double?, description: String) = (nil, " ")
     
+    // MARK: - Public API
     var result: Double? {
         return calculation.accumulator
     }
     
-    var description: String {
+    var description: String { // Shows what led to the current result
         return calculation.description
     }
     
-    private enum Operation {
-        case constant(Double)
-        case unary((Double) -> Double)
-        case binary((Double, Double) -> Double)
-        case equals
+    mutating func setOperand(_ operand: Double) {
+        let oldDescription = calculation.description
+        let newDescription = resultIsPending ? "\(oldDescription) \(operand)" : "\(operand)"
+        calculation = (accumulator: operand, description: newDescription)
     }
-    
-    private let operations: Dictionary<String, Operation> = [
-        "π": Operation.constant(Double.pi),
-        "e": Operation.constant(M_E),
-        "sin": Operation.unary(sin),
-        "cos": Operation.unary(cos),
-        "tan": Operation.unary(tan),
-        "√": Operation.unary(sqrt),
-        "±": Operation.unary(-),
-        "×": Operation.binary(*),
-        "÷": Operation.binary(/),
-        "+": Operation.binary(+),
-        "−": Operation.binary(-),
-        "^": Operation.binary(pow),
-        "=": Operation.equals
-    ]
     
     mutating func performOperation(_ symbol: String) {
         let operation = operations[symbol]!
@@ -75,21 +57,35 @@ struct CalculatorBrain {
         }
     }
     
-    mutating private func surroundLastOperandWithSymbol(_ symbol: String) {
-        
-    }
-    
-    private mutating func performBinaryOperation() {
-        if let accumulator = calculation.accumulator {
-            calculation.accumulator = (pendingBinaryOperation?.perform(with: accumulator))!
-            pendingBinaryOperation = nil
-        }
-    }
-    
+    // MARK: - Private Implementation
+    private var calculation: (accumulator: Double?, description: String) = (nil, " ")
     private var pendingBinaryOperation: PendingBinaryOperation?
     private var resultIsPending: Bool {
         return (pendingBinaryOperation != nil)
     }
+
+    private enum Operation {
+        case constant(Double)
+        case unary((Double) -> Double)
+        case binary((Double, Double) -> Double)
+        case equals
+    }
+    
+    private let operations: Dictionary<String, Operation> = [
+        "π": Operation.constant(Double.pi),
+        "e": Operation.constant(M_E),
+        "sin": Operation.unary(sin),
+        "cos": Operation.unary(cos),
+        "tan": Operation.unary(tan),
+        "√": Operation.unary(sqrt),
+        "±": Operation.unary(-),
+        "×": Operation.binary(*),
+        "÷": Operation.binary(/),
+        "+": Operation.binary(+),
+        "−": Operation.binary(-),
+        "^": Operation.binary(pow),
+        "=": Operation.equals
+    ]
     
     private struct PendingBinaryOperation {
         let operation: (Double, Double) -> Double
@@ -99,11 +95,12 @@ struct CalculatorBrain {
             return operation(firstOperand, secondOperand)
         }
     }
-    
-    mutating func setOperand(_ operand: Double) {
-        let oldDescription = calculation.description
-        let newDescription = resultIsPending ? "\(oldDescription) \(operand)" : "\(operand)"
-        calculation = (accumulator: operand, description: newDescription)
+
+    private mutating func performBinaryOperation() {
+        if let accumulator = calculation.accumulator {
+            calculation.accumulator = (pendingBinaryOperation?.perform(with: accumulator))!
+            pendingBinaryOperation = nil
+        }
     }
     
 }
