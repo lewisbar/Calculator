@@ -16,7 +16,8 @@ struct CalculatorBrain {
     }
     
     var description: String { // Shows what led to the current result
-        return calculation.description
+        let endSymbol = resultIsPending ? " ..." : " ="
+        return calculation.description + endSymbol
     }
     
     mutating func setOperand(_ operand: Double) {
