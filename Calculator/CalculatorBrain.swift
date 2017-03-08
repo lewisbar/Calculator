@@ -48,54 +48,41 @@ struct CalculatorBrain {
         
         switch operation {
         case .constant(let value):
-            //if !resultIsPending && !accumulatorIsHoldingResult { updateDescription() }
-//            let oldDescription = calculation.description
-//            let newDescription = resultIsPending ?
-//                                oldDescription + String(value)
-//                                : String(value)
-//            calculation = (value, newDescription)
-            //accumulatorIsHoldingResult = true
-            if accumulatorIsHoldingResult {
-                calculation.description = " "
-                //accumulatorIsHoldingResult = false
-            }
-            calculation.accumulator = value
+            let oldDescription = calculation.description
+            let newDescription = resultIsPending ? "\(oldDescription) \(symbol)" : "\(symbol)"
+            calculation = (accumulator: value, description: newDescription)
         case .unary(let function):
             if let accumulator = calculation.accumulator {
                 let oldDescription = calculation.description
                 let newDescription = resultIsPending ?
-                                "\(oldDescription)\(symbol)(\(accumulator)) "
-                                : "\(symbol)(\(oldDescription)) "
+                                oldDescription.replacingSuffix("\(accumulator)", with: "\(symbol)(\(accumulator))")
+                                : "\(symbol)(\(oldDescription))"
                 let newAccumulator = function(accumulator)
                 calculation = (newAccumulator, newDescription)
-                accumulatorIsHoldingResult = true
             }
         case .binary(let function):
-            if !accumulatorIsHoldingResult { updateDescription() }
-            //accumulatorIsHoldingResult = false
-            performBinaryOperation()
+            if resultIsPending {
+                performBinaryOperation()
+            }
             if let accumulator = calculation.accumulator {
-                calculation.description.append(symbol)
+                calculation.description = "\(calculation.description) \(symbol)"
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator)
             }
         case .equals:
-            if resultIsPending && !accumulatorIsHoldingResult { updateDescription() }
-            performBinaryOperation()
-            accumulatorIsHoldingResult = true
+            if resultIsPending {
+                performBinaryOperation()
+            }
         }
     }
     
-    private mutating func updateDescription() {
-        if let accumulator = calculation.accumulator {
-            calculation.description.append("\(accumulator)")
-        }
+    mutating private func surroundLastOperandWithSymbol(_ symbol: String) {
+        
     }
     
     private mutating func performBinaryOperation() {
-        if let accumulator = calculation.accumulator, resultIsPending {
+        if let accumulator = calculation.accumulator {
             calculation.accumulator = (pendingBinaryOperation?.perform(with: accumulator))!
             pendingBinaryOperation = nil
-            accumulatorIsHoldingResult = true
         }
     }
     
@@ -103,7 +90,6 @@ struct CalculatorBrain {
     private var resultIsPending: Bool {
         return (pendingBinaryOperation != nil)
     }
-    private var accumulatorIsHoldingResult = false
     
     private struct PendingBinaryOperation {
         let operation: (Double, Double) -> Double
@@ -115,12 +101,9 @@ struct CalculatorBrain {
     }
     
     mutating func setOperand(_ operand: Double) {
-        //calculation = (operand, (calculation.description + "\(operand)"))   // Description nur updaten, wenn ein operator oder = gedrückt wurde?
-//        if accumulatorIsHoldingResult {
-//            calculation.description = " "
-//            accumulatorIsHoldingResult = false
-//        }
-        calculation.accumulator = operand
+        let oldDescription = calculation.description
+        let newDescription = resultIsPending ? "\(oldDescription) \(operand)" : "\(operand)"
+        calculation = (accumulator: operand, description: newDescription)
     }
     
 }
