@@ -37,7 +37,7 @@ struct CalculatorBrain {
             if let accumulator = calculation.accumulator {
                 let oldDescription = calculation.description
                 let newDescription = resultIsPending ?
-                                oldDescription.replacingSuffix("\(accumulator)", with: "\(symbol)(\(accumulator))")
+                                oldDescription.surroundingLastWord(with: "\(symbol)(", and: ")")
                                 : "\(symbol)(\(oldDescription))"
                 let newAccumulator = function(accumulator)
                 calculation = (newAccumulator, newDescription)

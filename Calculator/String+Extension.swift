@@ -15,4 +15,9 @@ extension String {
         let range = start..<end
         return self.replacingCharacters(in: range, with: newSuffix)
     }
+    
+    public func surroundingLastWord(with part1: String, and part2: String) -> String {
+        let lastWord = self.components(separatedBy: " ").last!
+        return self.replacingSuffix(lastWord, with: "\(part1)\(lastWord)\(part2)")
+    }
 }
