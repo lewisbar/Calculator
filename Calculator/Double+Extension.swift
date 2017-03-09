@@ -10,7 +10,7 @@ import Foundation
 
 extension Double {
     
-    func formatted() -> String {
+    var decimalFormat: String {
         let formatter = NumberFormatter()
 
         let string = String(self)
@@ -24,4 +24,14 @@ extension Double {
         let number = NSNumber(value: self)
         return formatter.string(from: number)!
     }
+    
+//    var scientificFormat: String {
+//        let formatter = NumberFormatter()
+//        
+//        formatter.numberStyle = .scientific
+//        formatter.maximumFractionDigits = 6
+//        
+//        let number = NSNumber(value: self)
+//        return formatter.string(from: number)!
+//    }
 }

@@ -8,17 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorVC: UIViewController {
 
     private var userIsInTheMiddleOfTyping = false
     private var brain = CalculatorBrain()
     
-    private var displayValue: Double {
+    private var displayValue: Double? {
         get {
-            return Double(display.text!)!
+            return Double(display.text!)
         }
         set {
-            display.text = newValue.formatted()
+            display.text = newValue?.decimalFormat
         }
     }
     
@@ -50,8 +50,10 @@ class ViewController: UIViewController {
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            display.text = displayValue.formatted()
-            brain.setOperand(displayValue)
+            if let displayValue = displayValue {
+                display.text = displayValue.decimalFormat
+                brain.setOperand(displayValue)
+            }
             userIsInTheMiddleOfTyping = false
         }
         brain.performOperation(sender.currentTitle!)
@@ -68,5 +70,13 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = false
     }
     
+    @IBAction func backspace(_ sender: UIButton) {
+        guard userIsInTheMiddleOfTyping else { return }
+        display.text?.characters.removeLast()
+        if display.text == "" {
+            display.text = "0"
+            userIsInTheMiddleOfTyping = false
+        }
+    }
 }
 
