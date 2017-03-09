@@ -27,6 +27,7 @@ struct CalculatorBrain {
     }
     
     mutating func performOperation(_ symbol: String) {
+        // TODO: Multiplication and division should be performed first. This will probably be easier with the new structure that comes in Assignment 2.
         let operation = operations[symbol]!
         
         switch operation {
@@ -49,6 +50,7 @@ struct CalculatorBrain {
             }
             if let accumulator = calculation.accumulator {
                 calculation.description = "\(calculation.description) \(symbol)"
+                // TODO: Don't allow multiple binary symbols in a row. This will probably be easier with the new structure that comes in Assignment 2.
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator)
             }
         case .equals:
