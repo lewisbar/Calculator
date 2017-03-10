@@ -22,8 +22,16 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var display: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var display: InsetLabel! {
+        didSet {
+            display.insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        }
+    }
+    @IBOutlet weak var descriptionLabel: InsetLabel! {
+        didSet {
+            descriptionLabel.insets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        }
+    }
     
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!

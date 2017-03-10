@@ -28,7 +28,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cE9-vA-LO0">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="92"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="CalculatorDisplay" customModule="Calculator" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="272.5" height="92"/>
                                                 <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="32"/>
@@ -48,7 +48,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="102" width="343" height="20.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20.5" id="NUq-ja-MBN"/>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorDisplay: UILabel {
+class InsetLabel: UILabel {
 
     // Adding a padding on the left an right of the text.
     // This solution is almost entirely andrewz' answer at
@@ -17,7 +17,7 @@ class CalculatorDisplay: UILabel {
     // "open var insets : UIEdgeInsets = UIEdgeInsets() {"
     // and removed unnecessary open keywords.
     
-    var insets : UIEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10) {
+    var insets : UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) {
         didSet {
             super.invalidateIntrinsicContentSize()
         }
