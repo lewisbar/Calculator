@@ -15,6 +15,7 @@ class InsetLabel: UILabel {
     // https://stackoverflow.com/questions/27459746/adding-space-padding-to-a-uilabel/42046038#42046038
     // I only changed the first line which was
     // "open var insets : UIEdgeInsets = UIEdgeInsets() {"
+    // to default inset values
     // and removed unnecessary open keywords.
     
     var insets : UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) {
