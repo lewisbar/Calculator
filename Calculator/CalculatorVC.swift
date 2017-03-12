@@ -12,10 +12,13 @@ class CalculatorVC: UIViewController {
 
     private var userIsInTheMiddleOfTyping = false
     private var brain = CalculatorBrain()
+    private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
     
     private var displayValue: Double? {
         get {
-            return Double(display.text!)
+            let formatter = NumberFormatter()
+            let number = formatter.number(from: display.text!)
+            return number?.doubleValue
         }
         set {
             display.text = newValue?.decimalFormat
@@ -38,6 +41,11 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    @IBOutlet weak var floatingPointButton: UIButton! {
+        didSet {
+            floatingPointButton.setTitle(localDecimalSeparator, for: .normal)
+        }
+    }
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         
@@ -52,11 +60,11 @@ class CalculatorVC: UIViewController {
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            if !(display.text?.contains("."))! {
-                display.text = display.text! + "."
+            if !(display.text?.contains(localDecimalSeparator))! {
+                display.text = display.text! + localDecimalSeparator
             }
         } else {
-            display.text = "0."
+            display.text = "0\(localDecimalSeparator)"
             userIsInTheMiddleOfTyping = true
         }
     }
