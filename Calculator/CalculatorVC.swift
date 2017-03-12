@@ -23,13 +23,18 @@ class CalculatorVC: UIViewController {
     }
     
     @IBOutlet weak var display: InsetLabel! {
-        didSet {
+        didSet { // Falsch! didSet wird nur 1x aufgerufen. Vielleicht viewDidLayoutSubviews
             display.insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+            display.layer.cornerRadius = 5
+            display.clipsToBounds = true
         }
     }
     @IBOutlet weak var descriptionLabel: InsetLabel! {
         didSet {
             descriptionLabel.insets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+            descriptionLabel.layer.cornerRadius = 5
+            descriptionLabel.clipsToBounds = true
+            //descriptionLabel.fontSizeShouldBeLabelHeightMinus = 4
         }
     }
     
