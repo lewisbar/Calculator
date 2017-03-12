@@ -25,47 +25,52 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O9g-yi-hKC">
                                 <rect key="frame" x="16" y="28" width="343" height="623"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cE9-vA-LO0">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="90.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HTL-Cj-bOX">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="130"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="272.5" height="90.5"/>
-                                                <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="100"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cE9-vA-LO0">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="90"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="middleTruncation" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="273" height="90"/>
+                                                        <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="100"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90"/>
+                                                        <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                                        <state key="normal" title="←">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="backspace:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zwB-79-w6m"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="98" width="343" height="32"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="NUq-ja-MBN"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                <rect key="frame" x="282.5" y="0.0" width="60.5" height="90.5"/>
-                                                <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                <state key="normal" title="←">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="backspace:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zwB-79-w6m"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="100.5" width="343" height="20.5"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20.5" id="NUq-ja-MBN"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wbR-Bf-ewl">
-                                        <rect key="frame" x="0.0" y="131" width="343" height="492"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wbR-Bf-ewl">
+                                        <rect key="frame" x="0.0" y="140" width="343" height="483"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CwX-lR-D3b">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="90.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="CwX-lR-D3b">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="90"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLY-zO-n2n" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="C">
@@ -76,7 +81,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nO-4i-t4M" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="70.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="70" y="0.0" width="62.5" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="×"/>
@@ -85,7 +90,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W50-Td-Y1H" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="141" y="0.0" width="61" height="90.5"/>
+                                                        <rect key="frame" x="140.5" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="÷"/>
@@ -94,7 +99,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJD-aQ-o2O" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="212" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="62.5" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="+"/>
@@ -103,7 +108,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VoI-4E-1b4" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="282.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="−"/>
@@ -113,11 +118,11 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nk3-Bx-HR1">
-                                                <rect key="frame" x="0.0" y="100.5" width="343" height="90.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nk3-Bx-HR1">
+                                                <rect key="frame" x="0.0" y="98" width="343" height="90.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grb-mL-di3" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="90.5"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="sin"/>
@@ -126,7 +131,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF2-LS-NPJ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="70.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="70" y="0.0" width="62.5" height="90.5"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="√"/>
@@ -135,7 +140,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bg3-pf-q1g" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="141" y="0.0" width="61" height="90.5"/>
+                                                        <rect key="frame" x="140.5" y="0.0" width="62" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="7"/>
                                                         <connections>
@@ -143,7 +148,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14Z-Xz-EFv" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="212" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="62.5" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="8"/>
                                                         <connections>
@@ -151,7 +156,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOO-9A-XgV" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="282.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="9"/>
                                                         <connections>
@@ -160,11 +165,11 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="law-eo-zcO">
-                                                <rect key="frame" x="0.0" y="201" width="343" height="90"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="law-eo-zcO">
+                                                <rect key="frame" x="0.0" y="196.5" width="343" height="90"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRy-sa-ywb" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="90"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="cos"/>
@@ -173,7 +178,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3h3-mF-uo0" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="70.5" y="0.0" width="60.5" height="90"/>
+                                                        <rect key="frame" x="70" y="0.0" width="62.5" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="^"/>
@@ -182,7 +187,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Le2-Mb-7Yb" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="141" y="0.0" width="61" height="90"/>
+                                                        <rect key="frame" x="140.5" y="0.0" width="62" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="4"/>
                                                         <connections>
@@ -190,7 +195,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHd-gu-gKi" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="212" y="0.0" width="60.5" height="90"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="62.5" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="5"/>
                                                         <connections>
@@ -198,7 +203,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Viz-Wn-kX9" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="282.5" y="0.0" width="60.5" height="90"/>
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="6"/>
                                                         <connections>
@@ -207,11 +212,11 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wD7-Nx-IRn">
-                                                <rect key="frame" x="0.0" y="301" width="343" height="90.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wD7-Nx-IRn">
+                                                <rect key="frame" x="0.0" y="294.5" width="343" height="90.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Dd-gX-6Hg" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="90.5"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="tan"/>
@@ -220,7 +225,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HQb-Ng-WXh" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="70.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="70" y="0.0" width="62.5" height="90.5"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="±"/>
@@ -229,7 +234,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZjW-LT-TPX" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="141" y="0.0" width="61" height="90.5"/>
+                                                        <rect key="frame" x="140.5" y="0.0" width="62" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="1"/>
                                                         <connections>
@@ -237,7 +242,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-Oi-1mE" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="212" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="62.5" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="2"/>
                                                         <connections>
@@ -245,7 +250,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCH-O4-MQ1" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="282.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="3"/>
                                                         <connections>
@@ -254,11 +259,11 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U7I-mP-36z">
-                                                <rect key="frame" x="0.0" y="401.5" width="343" height="90.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U7I-mP-36z">
+                                                <rect key="frame" x="0.0" y="393" width="343" height="90"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4x5-b1-fwM" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="e"/>
@@ -267,7 +272,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ge3-qM-y9O" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="70.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="70" y="0.0" width="62.5" height="90"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="π"/>
@@ -276,7 +281,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFp-xq-EIt" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="141" y="0.0" width="61" height="90.5"/>
+                                                        <rect key="frame" x="140.5" y="0.0" width="62" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="."/>
                                                         <connections>
@@ -284,7 +289,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jox-Np-5a4" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="212" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="62.5" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="0"/>
                                                         <connections>
@@ -292,7 +297,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9z-ZH-JOO" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="282.5" y="0.0" width="60.5" height="90.5"/>
+                                                        <rect key="frame" x="281" y="0.0" width="62" height="90"/>
                                                         <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="=">
@@ -308,8 +313,8 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="cE9-vA-LO0" firstAttribute="height" secondItem="MLY-zO-n2n" secondAttribute="height" id="Vuc-0J-Fi7"/>
-                                    <constraint firstItem="gfF-8p-qSQ" firstAttribute="width" secondItem="MLY-zO-n2n" secondAttribute="width" id="d4L-V3-O6M"/>
+                                    <constraint firstItem="cE9-vA-LO0" firstAttribute="height" secondItem="CwX-lR-D3b" secondAttribute="height" id="KeT-sh-PUe"/>
+                                    <constraint firstItem="gfF-8p-qSQ" firstAttribute="width" secondItem="MLY-zO-n2n" secondAttribute="width" id="k96-KP-By9"/>
                                 </constraints>
                             </stackView>
                         </subviews>
