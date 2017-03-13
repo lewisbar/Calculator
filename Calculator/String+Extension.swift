@@ -11,6 +11,11 @@ import Foundation
 extension String {
     
     public func replacingSuffix(_ oldSuffix: String, with newSuffix: String) -> String {
+        guard self.hasSuffix(oldSuffix) else {
+            print("\(self) has no suffix \(oldSuffix)")
+            return self
+        }
+        
         let start = self.index(self.endIndex, offsetBy: -oldSuffix.characters.count)
         let end = self.endIndex
         let range = start..<end
