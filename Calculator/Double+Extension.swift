@@ -12,14 +12,8 @@ extension Double {
     
     var decimalFormat: String {
         let formatter = NumberFormatter()
-
-        let string = String(self)
-        if string.hasSuffix(".0") || string.hasSuffix(".") {
-            formatter.numberStyle = .none
-        } else {
-            formatter.numberStyle = .decimal
-            formatter.maximumFractionDigits = 6
-        }
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 6
         
         let number = NSNumber(value: self)
         return formatter.string(from: number)!

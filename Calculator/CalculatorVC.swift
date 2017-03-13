@@ -10,6 +10,7 @@ import UIKit
 
 class CalculatorVC: UIViewController {
 
+    // MARK: Vars
     private var userIsInTheMiddleOfTyping = false
     private var brain = CalculatorBrain()
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
@@ -25,6 +26,7 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
 
     @IBOutlet weak var descriptionLabel: InsetLabel!
@@ -34,6 +36,8 @@ class CalculatorVC: UIViewController {
             floatingPointButton.setTitle(localDecimalSeparator, for: .normal)
         }
     }
+    
+    // MARK: - IBActions
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         
