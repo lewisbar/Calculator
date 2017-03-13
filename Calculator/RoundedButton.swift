@@ -12,21 +12,24 @@ import UIKit
 class RoundedButton: UIButton {
 
     @IBInspectable
-    var cornerRadius: CGFloat = 5
+    var cornerRadius: CGFloat = 5 {
+        didSet {
+            roundCorners()
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        roundCorners()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        roundCorners()
     }
     
-    func setup() {
+    private func roundCorners() {
         layer.cornerRadius = cornerRadius
         clipsToBounds = true
     }
-
 }
