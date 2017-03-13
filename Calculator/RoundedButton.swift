@@ -8,8 +8,12 @@
 
 import UIKit
 
+@IBDesignable
 class RoundedButton: UIButton {
 
+    @IBInspectable
+    var cornerRadius: CGFloat = 5
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -21,7 +25,7 @@ class RoundedButton: UIButton {
     }
     
     func setup() {
-        layer.cornerRadius = 5
+        layer.cornerRadius = cornerRadius
         clipsToBounds = true
     }
 
