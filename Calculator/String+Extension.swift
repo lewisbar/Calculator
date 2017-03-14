@@ -15,7 +15,6 @@ extension String {
             print("\(self) has no suffix \(oldSuffix)")
             return self
         }
-        
         let start = self.index(self.endIndex, offsetBy: -oldSuffix.characters.count)
         let end = self.endIndex
         let range = start..<end

@@ -12,7 +12,9 @@ class CalculatorVC: UIViewController {
 
     // MARK: Vars
     private var userIsInTheMiddleOfTyping = false
+    
     private var brain = CalculatorBrain()
+    
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
     
     private var displayValue: Double? {
