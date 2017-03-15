@@ -11,18 +11,18 @@ import Foundation
 struct CalculatorBrain {
     
     // MARK: - Public API
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use evaluate().result instead.")
     var result: Double? {
         return evaluate().result // calculation.accumulator
     }
     
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use evaluate().description instead.")
     var description: String { // Shows what led to the current result
         // let endSymbol = resultIsPending ? " ..." : " ="
         return evaluate().description // calculation.description + endSymbol
     }
     
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use evaluate().isPending instead.")
     var resultIsPending: Bool {
         return evaluate().isPending // (pendingBinaryOperation != nil)
     }
