@@ -11,41 +11,65 @@ import Foundation
 struct CalculatorBrain {
     
     // MARK: - Public API
+    @available(*, deprecated)
     var result: Double? {
-        return calculation.accumulator
+        return evaluate().result // calculation.accumulator
     }
     
+    @available(*, deprecated)
     var description: String { // Shows what led to the current result
-        let endSymbol = resultIsPending ? " ..." : " ="
-        return calculation.description + endSymbol
+        // let endSymbol = resultIsPending ? " ..." : " ="
+        return evaluate().description // calculation.description + endSymbol
+    }
+    
+    @available(*, deprecated)
+    var resultIsPending: Bool {
+        return evaluate().isPending // (pendingBinaryOperation != nil)
     }
     
     mutating func setOperand(_ operand: Double) {
         let oldDescription = calculation.description
-        let newDescription = resultIsPending ? "\(oldDescription) \(operand.decimalFormat)" : "\(operand.decimalFormat)"
+        let newDescription = evaluate().isPending ? "\(oldDescription) \(operand.decimalFormat)" : "\(operand.decimalFormat)"
         calculation = (accumulator: operand, description: newDescription)
+    }
+    
+    func setOperand(variable named: String) {
+        // TODO
+    }
+    
+    func evaluate(using variables: Dictionary<String,Double>? = nil)
+        -> (result: Double?, isPending: Bool, description: String) {
+            // TODO
+            let result: Double? = calculation.accumulator
+            let isPending = pendingBinaryOperation != nil
+            let endSymbol = isPending ? " ..." : " ="
+            let description = calculation.description + endSymbol
+            return (result, isPending, description)
     }
     
     mutating func performOperation(_ symbol: String) {
         // TODO: Multiplication and division should be performed first. This will probably be easier with the new structure that comes in Assignment 2.
-        let operation = operations[symbol]!
+        guard let operation = operations[symbol] else {
+            print("Operation \(symbol) not supplied.")
+            return
+        }
         
         switch operation {
         case .constant(let value):
             let oldDescription = calculation.description
-            let newDescription = resultIsPending ? "\(oldDescription) \(symbol)" : "\(symbol)"
+            let newDescription = evaluate().isPending ? "\(oldDescription) \(symbol)" : "\(symbol)"
             calculation = (accumulator: value, description: newDescription)
         case .unary(let function):
             if let accumulator = calculation.accumulator {
                 let oldDescription = calculation.description
-                let newDescription = resultIsPending ?
+                let newDescription = evaluate().isPending ?
                                 oldDescription.surroundingLastWord(with: "\(symbol)(", and: ")")
                                 : "\(symbol)(\(oldDescription))"
                 let newAccumulator = function(accumulator)
                 calculation = (newAccumulator, newDescription)
             }
         case .binary(let function):
-            if resultIsPending {
+            if evaluate().isPending {
                 performBinaryOperation()
             }
             if let accumulator = calculation.accumulator {
@@ -54,7 +78,7 @@ struct CalculatorBrain {
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator)
             }
         case .equals:
-            if resultIsPending {
+            if evaluate().isPending {
                 performBinaryOperation()
             }
         }
@@ -63,9 +87,6 @@ struct CalculatorBrain {
     // MARK: - Private Implementation
     private var calculation: (accumulator: Double?, description: String) = (nil, " ")
     private var pendingBinaryOperation: PendingBinaryOperation?
-    private var resultIsPending: Bool {
-        return (pendingBinaryOperation != nil)
-    }
 
     private enum Operation {
         case constant(Double)
