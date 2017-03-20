@@ -129,7 +129,7 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    // MARK: Animations
+    // MARK: - Showing and Hiding Views
     private func hide(_ view: UIView) {
         if !hiddenViews.contains(view) {
             UIView.animate(withDuration: 0.5) { view.isHidden = true }
@@ -140,6 +140,14 @@ class CalculatorVC: UIViewController {
     private func hide(_ views: [UIView]) {
         views.forEach {
             hide($0)
+        }
+    }
+    
+    private func hideAll(except viewsToKeepVisible: [UIView]) {
+        hiddenViews.forEach {
+            if !viewsToKeepVisible.contains($0) {
+                show($0)
+            }
         }
     }
     
@@ -156,7 +164,14 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    // TODO: show/hide all except ...
+    private func showAll(except viewsToKeepHidden: [UIView]) {
+        hiddenViews.forEach {
+            if !viewsToKeepHidden.contains($0) {
+                show($0)
+            }
+        }
+    }
+    
     // TODO: go through all occurrences of hiddenViews and look what really needs to be shown or hidden
     // TODO: look where else views should be shown or hidden
 }
