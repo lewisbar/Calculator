@@ -41,8 +41,13 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    @IBOutlet var binaryOperationButtons: [UIButton]!
+    @IBOutlet var unaryOperationButtons: [UIButton]!
+    @IBOutlet var constantButtons: [UIButton]!
+    @IBOutlet weak var squareRootButton: UIButton!
+    
     // MARK: - IBActions
-    @IBAction func touchDigit(_ sender: RoundedButton) {
+    @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         
         if userIsInTheMiddleOfTyping {
@@ -51,7 +56,11 @@ class CalculatorVC: UIViewController {
         } else {
             display.text = digit
             userIsInTheMiddleOfTyping = true
+            // Once there is a fresh number in the display, there is no need to hide any buttons anymore // TODO: That might be different for the memory label.
+            show(hiddenViews)
         }
+        
+        
     }
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
@@ -80,6 +89,23 @@ class CalculatorVC: UIViewController {
         }
         descriptionLabel.text = brain.description
         show(floatingPointButton)
+        
+        // If isPending, hide all binary and unary operation buttons
+        if brain.evaluate().isPending {
+            hide(binaryOperationButtons)
+            hide(unaryOperationButtons)
+        }
+        
+        // If = or a constant is pressed, show all buttons again
+        if sender.currentTitle == "=" || constantButtons.contains(sender) {
+            print("= or constant pressed")
+            show(hiddenViews)
+        }
+        
+        // If the display now shows a negative number, hide √
+        if (displayValue?.isLess(than: 0)) ?? false {
+            hide(squareRootButton)
+        }
     }
 
     @IBAction func clear(_ sender: UIButton) {
@@ -87,7 +113,7 @@ class CalculatorVC: UIViewController {
         display.text = "0"
         descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
-        hiddenViews.forEach { show($0) }
+        show(hiddenViews)
     }
     
     @IBAction func backspace(_ sender: UIButton) {
@@ -111,11 +137,27 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    private func hide(_ views: [UIView]) {
+        views.forEach {
+            hide($0)
+        }
+    }
+    
     private func show(_ view: UIView) {
         if hiddenViews.contains(view) {
             UIView.animate(withDuration: 0.5) { view.isHidden = false }
             hiddenViews.remove(at: hiddenViews.index(of: view)!)
         }
     }
+    
+    private func show(_ views: [UIView]) {
+        views.forEach {
+            show($0)
+        }
+    }
+    
+    // TODO: show/hide all except ...
+    // TODO: go through all occurrences of hiddenViews and look what really needs to be shown or hidden
+    // TODO: look where else views should be shown or hidden
 }
 

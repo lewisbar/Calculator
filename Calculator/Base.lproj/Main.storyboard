@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -31,7 +32,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="651" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="middleTruncation" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="541" height="44"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="536" height="44"/>
                                                         <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="100"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,7 +50,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="549" y="0.0" width="102" height="44"/>
+                                                        <rect key="frame" x="544" y="0.0" width="107" height="44"/>
                                                         <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="←">
@@ -60,6 +61,9 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="gfF-8p-qSQ" firstAttribute="width" relation="lessThanOrEqual" secondItem="amr-qb-BwS" secondAttribute="width" multiplier="1:5" id="BkZ-tS-Iy6"/>
+                                                </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="52" width="651" height="25"/>
@@ -182,13 +186,13 @@
                                                             <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QQT-Cv-EFr"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF2-LS-NPJ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3h3-mF-uo0" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
                                                         <rect key="frame" x="219.5" y="0.0" width="102" height="44"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                        <state key="normal" title="√"/>
+                                                        <state key="normal" title="^"/>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iDE-ov-ibU"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c60-qP-h7Q"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bg3-pf-q1g" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
@@ -248,13 +252,13 @@
                                                             <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kiA-RX-9py"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3h3-mF-uo0" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF2-LS-NPJ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
                                                         <rect key="frame" x="219.5" y="0.0" width="102" height="44"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                        <state key="normal" title="^"/>
+                                                        <state key="normal" title="√"/>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c60-qP-h7Q"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iDE-ov-ibU"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Le2-Mb-7Yb" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
@@ -433,7 +437,6 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="cE9-vA-LO0" firstAttribute="height" secondItem="CwX-lR-D3b" secondAttribute="height" id="KeT-sh-PUe"/>
-                                    <constraint firstItem="gfF-8p-qSQ" firstAttribute="width" secondItem="MLY-zO-n2n" secondAttribute="width" id="k96-KP-By9"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -449,6 +452,19 @@
                         <outlet property="descriptionLabel" destination="uKg-K1-JRS" id="wVU-zJ-ady"/>
                         <outlet property="display" destination="amr-qb-BwS" id="QXg-b8-kQw"/>
                         <outlet property="floatingPointButton" destination="mFp-xq-EIt" id="mqq-ch-yif"/>
+                        <outlet property="squareRootButton" destination="pF2-LS-NPJ" id="dzB-cY-RJH"/>
+                        <outletCollection property="binaryOperationButtons" destination="1nO-4i-t4M" collectionClass="NSMutableArray" id="oTo-M6-PGt"/>
+                        <outletCollection property="binaryOperationButtons" destination="W50-Td-Y1H" collectionClass="NSMutableArray" id="Uua-Ch-sJo"/>
+                        <outletCollection property="binaryOperationButtons" destination="LJD-aQ-o2O" collectionClass="NSMutableArray" id="wBF-rl-Kg8"/>
+                        <outletCollection property="binaryOperationButtons" destination="VoI-4E-1b4" collectionClass="NSMutableArray" id="cWa-hf-guB"/>
+                        <outletCollection property="unaryOperationButtons" destination="HQb-Ng-WXh" collectionClass="NSMutableArray" id="QUt-HY-Zm2"/>
+                        <outletCollection property="unaryOperationButtons" destination="Grb-mL-di3" collectionClass="NSMutableArray" id="Zga-Dc-u6J"/>
+                        <outletCollection property="unaryOperationButtons" destination="kRy-sa-ywb" collectionClass="NSMutableArray" id="Mv3-7p-KEG"/>
+                        <outletCollection property="unaryOperationButtons" destination="6Dd-gX-6Hg" collectionClass="NSMutableArray" id="wg1-nA-jE7"/>
+                        <outletCollection property="binaryOperationButtons" destination="3h3-mF-uo0" collectionClass="NSMutableArray" id="NSP-dH-yEa"/>
+                        <outletCollection property="unaryOperationButtons" destination="pF2-LS-NPJ" collectionClass="NSMutableArray" id="nGh-Ro-Grh"/>
+                        <outletCollection property="constantButtons" destination="4x5-b1-fwM" collectionClass="NSMutableArray" id="Ae5-gB-Dix"/>
+                        <outletCollection property="constantButtons" destination="Ge3-qM-y9O" collectionClass="NSMutableArray" id="J8h-6v-Ey9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
