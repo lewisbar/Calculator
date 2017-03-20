@@ -10,7 +10,7 @@ import UIKit
 
 @IBDesignable
 class InsetLabel: UILabel {
-
+    
     // MARK: - Insets
     
     // Adding a padding on the left an right of the text.
@@ -30,11 +30,11 @@ class InsetLabel: UILabel {
     
     @IBInspectable
     var sideInsets: CGFloat = 10 {
-            didSet {
-                super.invalidateIntrinsicContentSize()
-            }
+        didSet {
+            super.invalidateIntrinsicContentSize()
+        }
     }
-
+    
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         size.width += sideInsets * 2
@@ -45,7 +45,7 @@ class InsetLabel: UILabel {
         let insets = UIEdgeInsets(top: 0, left: sideInsets, bottom: 0, right: sideInsets)
         return super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
     }
-
+    
     // MARK: - Dynamic font size
     @IBInspectable
     var fontSizeShouldBeLabelHeightMinus: CGFloat = 8 {
@@ -86,4 +86,5 @@ class InsetLabel: UILabel {
         layer.cornerRadius = cornerRadius
         clipsToBounds = true
     }
+    
 }

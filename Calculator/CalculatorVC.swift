@@ -24,9 +24,11 @@ class CalculatorVC: UIViewController {
             return number?.doubleValue
         }
         set {
-            display.text = newValue?.decimalFormat
+            self.display.text = newValue?.decimalFormat
         }
     }
+    
+    private var hiddenButtons = [RoundedButton]()
     
     // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
@@ -40,7 +42,7 @@ class CalculatorVC: UIViewController {
     }
     
     // MARK: - IBActions
-    @IBAction func touchDigit(_ sender: UIButton) {
+    @IBAction func touchDigit(_ sender: RoundedButton) {
         let digit = sender.currentTitle!
         
         if userIsInTheMiddleOfTyping {
@@ -50,6 +52,10 @@ class CalculatorVC: UIViewController {
             display.text = digit
             userIsInTheMiddleOfTyping = true
         }
+        
+        // Just for fun
+        sender.hide()
+        hiddenButtons += [sender]
     }
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
@@ -76,6 +82,12 @@ class CalculatorVC: UIViewController {
             displayValue = result
         }
         descriptionLabel.text = brain.description
+        
+        
+        // Just for fun
+        self.hiddenButtons.forEach {
+            $0.show()
+        }
     }
 
     @IBAction func clear(_ sender: UIButton) {
@@ -83,6 +95,7 @@ class CalculatorVC: UIViewController {
         display.text = "0"
         descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
+
     }
     
     @IBAction func backspace(_ sender: UIButton) {
