@@ -28,7 +28,7 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    private var hiddenButtons = [RoundedButton]()
+    private var hiddenViews = [UIView]()
     
     // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
@@ -52,10 +52,6 @@ class CalculatorVC: UIViewController {
             display.text = digit
             userIsInTheMiddleOfTyping = true
         }
-        
-        // Just for fun
-        sender.hide()
-        hiddenButtons += [sender]
     }
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
@@ -67,6 +63,7 @@ class CalculatorVC: UIViewController {
             display.text = "0\(localDecimalSeparator)"
             userIsInTheMiddleOfTyping = true
         }
+        hide(floatingPointButton)
     }
 
     @IBAction func performOperation(_ sender: UIButton) {
@@ -82,12 +79,7 @@ class CalculatorVC: UIViewController {
             displayValue = result
         }
         descriptionLabel.text = brain.description
-        
-        
-        // Just for fun
-        self.hiddenButtons.forEach {
-            $0.show()
-        }
+        show(floatingPointButton)
     }
 
     @IBAction func clear(_ sender: UIButton) {
@@ -95,15 +87,34 @@ class CalculatorVC: UIViewController {
         display.text = "0"
         descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
-
+        hiddenViews.forEach { show($0) }
     }
     
     @IBAction func backspace(_ sender: UIButton) {
         guard userIsInTheMiddleOfTyping else { return }
-        display.text?.characters.removeLast()
+        
+        // Remove last character. If it's a floating point, show the floating point button again.
+        if let removedCharacter = display.text?.characters.removeLast(),
+            String(removedCharacter) == localDecimalSeparator { show(floatingPointButton) }
+        
         if display.text == "" {
             display.text = "0"
             userIsInTheMiddleOfTyping = false
+        }
+    }
+    
+    // MARK: Animations
+    private func hide(_ view: UIView) {
+        if !hiddenViews.contains(view) {
+            UIView.animate(withDuration: 0.5) { view.isHidden = true }
+            hiddenViews.append(view)
+        }
+    }
+    
+    private func show(_ view: UIView) {
+        if hiddenViews.contains(view) {
+            UIView.animate(withDuration: 0.5) { view.isHidden = false }
+            hiddenViews.remove(at: hiddenViews.index(of: view)!)
         }
     }
 }

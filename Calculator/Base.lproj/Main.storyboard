@@ -31,7 +31,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="651" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="middleTruncation" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="540.5" height="44"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="541" height="44"/>
                                                         <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="100"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,7 +49,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="548.5" y="0.0" width="102.5" height="44"/>
+                                                        <rect key="frame" x="549" y="0.0" width="102" height="44"/>
                                                         <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="←">
