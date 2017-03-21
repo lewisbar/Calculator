@@ -215,8 +215,5 @@ class CalculatorVC: UIViewController {
             }
         }
     }
-    
-    // TODO: go through all occurrences of hiddenViews and look what really needs to be shown or hidden
-    // TODO: look where else views should be shown or hidden
 }
 
