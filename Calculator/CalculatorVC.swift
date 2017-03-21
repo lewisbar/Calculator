@@ -46,7 +46,7 @@ class CalculatorVC: UIViewController {
     
     // MARK: Initial Setup
     override func viewDidLoad() {
-        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton]
+        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, equalsButton, floatingPointButton]
         setup()
     }
     
@@ -64,9 +64,9 @@ class CalculatorVC: UIViewController {
         } else {
             display.text = digit
             userIsInTheMiddleOfTyping = true
-            
-            adaptView(to: .digit)
         }
+        
+        adaptView(to: .digit)
     }
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
@@ -150,13 +150,9 @@ class CalculatorVC: UIViewController {
         let isPending = brain.evaluate().isPending
         
         func showOnly(_ viewsToShow: [UIView]) {
-            hidableViews.forEach {
-                if viewsToShow.contains($0) {
-                    UIView.animate(withDuration: 0.5) { $0.isHidden = false }
-                }
-                else {
-                    UIView.animate(withDuration: 0.5) { $0.isHidden = true }
-                }
+            for hidableView in hidableViews {
+                let shouldBeShown = viewsToShow.contains(hidableView)
+                UIView.animate(withDuration: 0.5) { hidableView.isHidden = shouldBeShown }
             }
         }
         
@@ -173,27 +169,27 @@ class CalculatorVC: UIViewController {
             showOnly(digitButtons + constantButtons)
         case .digit:
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
             } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, floatingPointButton])
             }
         case .floatingPoint:
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton])
             } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton])
             }
         case .constant:
             if isPending {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton])
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton])
             } else {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton])
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton])
             }
         case .unary:
             if isPending {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
             } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
             }
             if (displayValue?.isLess(than: 0)) ?? false {
                 hide(squareRootButton)
@@ -201,7 +197,7 @@ class CalculatorVC: UIViewController {
         case .binary:
             showOnly(digitButtons + constantButtons + [clearButton, floatingPointButton])
         case .equals:
-            showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+            showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
             if (displayValue?.isLess(than: 0)) ?? false {
                 hide(squareRootButton)
             }
@@ -209,9 +205,9 @@ class CalculatorVC: UIViewController {
             makeVisible(floatingPointButton)
         case .deletedLastDigit:
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
             } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
             }
         }
     }
