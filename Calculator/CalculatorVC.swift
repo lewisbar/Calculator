@@ -14,7 +14,8 @@ class CalculatorVC: UIViewController {
     private var brain = CalculatorBrain()
     private var userIsInTheMiddleOfTyping = false
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
-    private var hiddenViews = [UIView]()
+    //private var hiddenViews = [UIView]()
+    private var hidableViews = [UIView]()
     private var displayValue: Double? {
         get {
             let formatter = NumberFormatter()
@@ -27,6 +28,8 @@ class CalculatorVC: UIViewController {
     }
     
     // MARK: - IBOutlets
+    @IBOutlet weak var display: InsetLabel!
+    @IBOutlet weak var descriptionLabel: InsetLabel!    
     @IBOutlet weak var firstRow: UIStackView!
     @IBOutlet var digitButtons: [UIButton]!
     @IBOutlet var binaryOperationButtons: [UIButton]!
@@ -35,26 +38,20 @@ class CalculatorVC: UIViewController {
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var squareRootButton: UIButton! // Is also in unaryOperationButtons
     @IBOutlet weak var equalsButton: UIButton!
-    @IBOutlet weak var display: InsetLabel!
-    @IBOutlet weak var descriptionLabel: InsetLabel!
     @IBOutlet weak var floatingPointButton: UIButton! {
         didSet {
             floatingPointButton.setTitle(localDecimalSeparator, for: .normal)
         }
     }
     
-    // MARK: Startup
+    // MARK: Initial Setup
     override func viewDidLoad() {
+        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton]
         setup()
     }
     
     private func setup() {
-        hide(firstRow)
-        hide(binaryOperationButtons)
-        hide(unaryOperationButtons)
-        hide(clearButton)
-        hide(equalsButton)
-        showAll(except: binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton])
+        adaptView(to: .start)
     }
     
     // MARK: - IBActions
@@ -68,12 +65,7 @@ class CalculatorVC: UIViewController {
             display.text = digit
             userIsInTheMiddleOfTyping = true
             
-            // When the user starts typing a number, the constant buttons stop making sense. All operation buttons start making sense. = only makes sense when an operation is pending.
-            hide(constantButtons)
-            showAll(except: constantButtons + [equalsButton])
-            if brain.evaluate().isPending {
-                show(equalsButton)
-            }
+            adaptView(to: .digit)
         }
     }
     
@@ -87,8 +79,7 @@ class CalculatorVC: UIViewController {
             userIsInTheMiddleOfTyping = true
         }
         
-        // When the user touches the floating point, another floating point wouldn't make sense.
-        hide(floatingPointButton)
+        adaptView(to: .floatingPoint)
     }
 
     @IBAction func performOperation(_ sender: UIButton) {
@@ -104,50 +95,16 @@ class CalculatorVC: UIViewController {
             displayValue = result
         }
         descriptionLabel.text = brain.description
-        show(floatingPointButton)
         
-        // If isPending, hide all binary and unary operation buttons and the = button
-        if brain.evaluate().isPending {
-            hide(binaryOperationButtons)
-            hide(unaryOperationButtons)
-            hide(equalsButton)
-        
-        // If = is pressed, show all buttons
-        } else if sender == equalsButton {
-            show(hiddenViews)
-        
-        // If a constant was pressed, other constant buttons, digit buttons and floating point buttons don't make sense.
+        // Show and hide views adapting to the situation
+        if sender == equalsButton {
+            adaptView(to: .equals)
         } else if constantButtons.contains(sender) {
-            hide(constantButtons)
-            hide(digitButtons)
-            hide(floatingPointButton)
-            showAll(except: constantButtons + digitButtons + [floatingPointButton, equalsButton])
-            if brain.evaluate().isPending {
-                show(equalsButton)
-            } else {
-                hide(equalsButton)
-            }
-        
-        // If a unary operation button has been pressed, hide digits and show equals
+            adaptView(to: .constant)
         } else if unaryOperationButtons.contains(sender) {
-            hide(constantButtons)
-            hide(digitButtons)
-            hide(floatingPointButton)
-            showAll(except: constantButtons + digitButtons + [floatingPointButton, equalsButton])
-            if brain.evaluate().isPending {
-                show(equalsButton)
-            } else {
-                hide(equalsButton)
-            }
-            
-        // If a binary operation button is pressed, show digits
+            adaptView(to: .unary)
         } else if binaryOperationButtons.contains(sender) {
-            show(digitButtons) // TODO: Doesn't work. I think a different case is executed first so this never gets called. I must clean this whole thing up.
-        }
-        
-        // If the display now shows a negative number, hide √
-        if (displayValue?.isLess(than: 0)) ?? false {
-            hide(squareRootButton)
+            adaptView(to: .binary)
         }
     }
 
@@ -157,7 +114,6 @@ class CalculatorVC: UIViewController {
         display.text = "0"
         descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
-        show(hiddenViews)
     }
     
     @IBAction func backspace(_ sender: UIButton) {
@@ -165,27 +121,113 @@ class CalculatorVC: UIViewController {
         
         // Remove last character. If it's a floating point, show the floating point button again.
         if let removedCharacter = display.text?.characters.removeLast(),
-            String(removedCharacter) == localDecimalSeparator { show(floatingPointButton) }
+            String(removedCharacter) == localDecimalSeparator { adaptView(to: .deletedFloatingPoint) }
         
         if display.text == "" {
             display.text = "0"
             userIsInTheMiddleOfTyping = false
+            adaptView(to: .deletedLastDigit)
         }
     }
     
     // MARK: - Showing and Hiding Views
-    private func hide(_ view: UIView) {
-        if !hiddenViews.contains(view) {
+    private enum Situation {
+        case start
+        
+        case digit
+        case floatingPoint
+        
+        case constant
+        case unary
+        case binary
+        case equals
+        
+        case deletedFloatingPoint
+        case deletedLastDigit
+    }
+    
+    private func adaptView(to situation: Situation) {
+        let isPending = brain.evaluate().isPending
+        
+        func showOnly(_ viewsToShow: [UIView]) {
+            hidableViews.forEach {
+                if viewsToShow.contains($0) {
+                    UIView.animate(withDuration: 0.5) { $0.isHidden = false }
+                }
+                else {
+                    UIView.animate(withDuration: 0.5) { $0.isHidden = true }
+                }
+            }
+        }
+        
+        func makeVisible(_ view: UIView) {
+            UIView.animate(withDuration: 0.5) { view.isHidden = false }
+        }
+        
+        func hide(_ view: UIView) {
             UIView.animate(withDuration: 0.5) { view.isHidden = true }
-            hiddenViews.append(view)
+        }
+        
+        switch situation {
+        case .start:
+            showOnly(digitButtons + constantButtons)
+        case .digit:
+            if isPending {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+            } else {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+            }
+        case .floatingPoint:
+            if isPending {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton])
+            } else {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton])
+            }
+        case .constant:
+            if isPending {
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton])
+            } else {
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton])
+            }
+        case .unary:
+            if isPending {
+                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+            } else {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+            }
+            if (displayValue?.isLess(than: 0)) ?? false {
+                hide(squareRootButton)
+            }
+        case .binary:
+            showOnly(digitButtons + constantButtons + [clearButton, floatingPointButton])
+        case .equals:
+            showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+            if (displayValue?.isLess(than: 0)) ?? false {
+                hide(squareRootButton)
+            }
+        case .deletedFloatingPoint:
+            makeVisible(floatingPointButton)
+        case .deletedLastDigit:
+            if isPending {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, equalsButton, floatingPointButton])
+            } else {
+                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, squareRootButton, floatingPointButton])
+            }
         }
     }
     
-    private func hide(_ views: [UIView]) {
-        views.forEach {
-            hide($0)
-        }
-    }
+//    private func hide(_ view: UIView) {
+//        if !hiddenViews.contains(view) {
+//            UIView.animate(withDuration: 0.5) { view.isHidden = true }
+//            hiddenViews.append(view)
+//        }
+//    }
+    
+//    private func hide(_ views: [UIView]) {
+//        views.forEach {
+//            hide($0)
+//        }
+//    }
     
 //    private func hideAll(except viewsToKeepVisible: [UIView]) {
 //        hiddenViews.forEach {
@@ -195,25 +237,25 @@ class CalculatorVC: UIViewController {
 //        }
 //    }
     
-    private func show(_ view: UIView) {
-        if hiddenViews.contains(view) {
-            UIView.animate(withDuration: 0.5) { view.isHidden = false }
-            hiddenViews.remove(at: hiddenViews.index(of: view)!)
-        }
-    }
+//    private func show(_ view: UIView) {
+//        if hiddenViews.contains(view) {
+//            UIView.animate(withDuration: 0.5) { view.isHidden = false }
+//            hiddenViews.remove(at: hiddenViews.index(of: view)!)
+//        }
+//    }
     
-    private func show(_ views: [UIView]) {
-        views.forEach {
-            show($0)
-        }
-    }
-    
-    private func showAll(except viewsToKeepHidden: [UIView]) {
-        hiddenViews.forEach {
-            if !viewsToKeepHidden.contains($0) {
-                show($0)
-            }
-        }
-    }
+//    private func show(_ views: [UIView]) {
+//        views.forEach {
+//            show($0)
+//        }
+//    }
+//    
+//    private func showAll(except viewsToKeepHidden: [UIView]) {
+//        hiddenViews.forEach {
+//            if !viewsToKeepHidden.contains($0) {
+//                show($0)
+//            }
+//        }
+//    }
 }
 
