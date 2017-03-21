@@ -11,12 +11,10 @@ import UIKit
 class CalculatorVC: UIViewController {
 
     // MARK: Vars
-    private var userIsInTheMiddleOfTyping = false
-    
     private var brain = CalculatorBrain()
-    
+    private var userIsInTheMiddleOfTyping = false
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
-    
+    private var hiddenViews = [UIView]()
     private var displayValue: Double? {
         get {
             let formatter = NumberFormatter()
@@ -28,23 +26,36 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    private var hiddenViews = [UIView]()
-    
     // MARK: - IBOutlets
+    @IBOutlet weak var firstRow: UIStackView!
+    @IBOutlet var digitButtons: [UIButton]!
+    @IBOutlet var binaryOperationButtons: [UIButton]!
+    @IBOutlet var unaryOperationButtons: [UIButton]!
+    @IBOutlet var constantButtons: [UIButton]!
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var squareRootButton: UIButton! // Is also in unaryOperationButtons
+    @IBOutlet weak var equalsButton: UIButton!
     @IBOutlet weak var display: InsetLabel!
-
     @IBOutlet weak var descriptionLabel: InsetLabel!
-    
     @IBOutlet weak var floatingPointButton: UIButton! {
         didSet {
             floatingPointButton.setTitle(localDecimalSeparator, for: .normal)
         }
     }
     
-    @IBOutlet var binaryOperationButtons: [UIButton]!
-    @IBOutlet var unaryOperationButtons: [UIButton]!
-    @IBOutlet var constantButtons: [UIButton]!
-    @IBOutlet weak var squareRootButton: UIButton!
+    // MARK: Startup
+    override func viewDidLoad() {
+        setup()
+    }
+    
+    private func setup() {
+        hide(firstRow)
+        hide(binaryOperationButtons)
+        hide(unaryOperationButtons)
+        hide(clearButton)
+        hide(equalsButton)
+        showAll(except: binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton])
+    }
     
     // MARK: - IBActions
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -56,11 +67,14 @@ class CalculatorVC: UIViewController {
         } else {
             display.text = digit
             userIsInTheMiddleOfTyping = true
-            // Once there is a fresh number in the display, there is no need to hide any buttons anymore // TODO: That might be different for the memory label.
-            show(hiddenViews)
+            
+            // When the user starts typing a number, the constant buttons stop making sense. All operation buttons start making sense. = only makes sense when an operation is pending.
+            hide(constantButtons)
+            showAll(except: constantButtons + [equalsButton])
+            if brain.evaluate().isPending {
+                show(equalsButton)
+            }
         }
-        
-        
     }
     
     @IBAction func touchFloatingPoint(_ sender: UIButton) {
@@ -72,6 +86,8 @@ class CalculatorVC: UIViewController {
             display.text = "0\(localDecimalSeparator)"
             userIsInTheMiddleOfTyping = true
         }
+        
+        // When the user touches the floating point, another floating point wouldn't make sense.
         hide(floatingPointButton)
     }
 
@@ -90,16 +106,43 @@ class CalculatorVC: UIViewController {
         descriptionLabel.text = brain.description
         show(floatingPointButton)
         
-        // If isPending, hide all binary and unary operation buttons
+        // If isPending, hide all binary and unary operation buttons and the = button
         if brain.evaluate().isPending {
             hide(binaryOperationButtons)
             hide(unaryOperationButtons)
-        }
+            hide(equalsButton)
         
-        // If = or a constant is pressed, show all buttons again
-        if sender.currentTitle == "=" || constantButtons.contains(sender) {
-            print("= or constant pressed")
+        // If = is pressed, show all buttons
+        } else if sender == equalsButton {
             show(hiddenViews)
+        
+        // If a constant was pressed, other constant buttons, digit buttons and floating point buttons don't make sense.
+        } else if constantButtons.contains(sender) {
+            hide(constantButtons)
+            hide(digitButtons)
+            hide(floatingPointButton)
+            showAll(except: constantButtons + digitButtons + [floatingPointButton, equalsButton])
+            if brain.evaluate().isPending {
+                show(equalsButton)
+            } else {
+                hide(equalsButton)
+            }
+        
+        // If a unary operation button has been pressed, hide digits and show equals
+        } else if unaryOperationButtons.contains(sender) {
+            hide(constantButtons)
+            hide(digitButtons)
+            hide(floatingPointButton)
+            showAll(except: constantButtons + digitButtons + [floatingPointButton, equalsButton])
+            if brain.evaluate().isPending {
+                show(equalsButton)
+            } else {
+                hide(equalsButton)
+            }
+            
+        // If a binary operation button is pressed, show digits
+        } else if binaryOperationButtons.contains(sender) {
+            show(digitButtons) // TODO: Doesn't work. I think a different case is executed first so this never gets called. I must clean this whole thing up.
         }
         
         // If the display now shows a negative number, hide √
@@ -109,6 +152,7 @@ class CalculatorVC: UIViewController {
     }
 
     @IBAction func clear(_ sender: UIButton) {
+        setup()
         brain = CalculatorBrain()
         display.text = "0"
         descriptionLabel.text = " "
@@ -143,13 +187,13 @@ class CalculatorVC: UIViewController {
         }
     }
     
-    private func hideAll(except viewsToKeepVisible: [UIView]) {
-        hiddenViews.forEach {
-            if !viewsToKeepVisible.contains($0) {
-                show($0)
-            }
-        }
-    }
+//    private func hideAll(except viewsToKeepVisible: [UIView]) {
+//        hiddenViews.forEach {
+//            if !viewsToKeepVisible.contains($0) {
+//                show($0)
+//            }
+//        }
+//    }
     
     private func show(_ view: UIView) {
         if hiddenViews.contains(view) {

@@ -449,8 +449,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="clearButton" destination="MLY-zO-n2n" id="8rk-TT-3Kb"/>
                         <outlet property="descriptionLabel" destination="uKg-K1-JRS" id="wVU-zJ-ady"/>
                         <outlet property="display" destination="amr-qb-BwS" id="QXg-b8-kQw"/>
+                        <outlet property="equalsButton" destination="O9z-ZH-JOO" id="SJc-Nv-aTX"/>
+                        <outlet property="firstRow" destination="CwX-lR-D3b" id="CpP-qw-WAm"/>
                         <outlet property="floatingPointButton" destination="mFp-xq-EIt" id="mqq-ch-yif"/>
                         <outlet property="squareRootButton" destination="pF2-LS-NPJ" id="dzB-cY-RJH"/>
                         <outletCollection property="binaryOperationButtons" destination="1nO-4i-t4M" collectionClass="NSMutableArray" id="oTo-M6-PGt"/>
@@ -465,6 +468,16 @@
                         <outletCollection property="unaryOperationButtons" destination="pF2-LS-NPJ" collectionClass="NSMutableArray" id="nGh-Ro-Grh"/>
                         <outletCollection property="constantButtons" destination="4x5-b1-fwM" collectionClass="NSMutableArray" id="Ae5-gB-Dix"/>
                         <outletCollection property="constantButtons" destination="Ge3-qM-y9O" collectionClass="NSMutableArray" id="J8h-6v-Ey9"/>
+                        <outletCollection property="digitButtons" destination="Bg3-pf-q1g" collectionClass="NSMutableArray" id="reQ-eS-AZe"/>
+                        <outletCollection property="digitButtons" destination="14Z-Xz-EFv" collectionClass="NSMutableArray" id="fG3-ju-XzT"/>
+                        <outletCollection property="digitButtons" destination="ZOO-9A-XgV" collectionClass="NSMutableArray" id="MsW-7l-tQe"/>
+                        <outletCollection property="digitButtons" destination="Le2-Mb-7Yb" collectionClass="NSMutableArray" id="KMx-de-xmn"/>
+                        <outletCollection property="digitButtons" destination="VHd-gu-gKi" collectionClass="NSMutableArray" id="6C8-MK-Wa8"/>
+                        <outletCollection property="digitButtons" destination="Viz-Wn-kX9" collectionClass="NSMutableArray" id="bkm-9d-xsh"/>
+                        <outletCollection property="digitButtons" destination="ZjW-LT-TPX" collectionClass="NSMutableArray" id="gJo-wi-vCI"/>
+                        <outletCollection property="digitButtons" destination="g2O-Oi-1mE" collectionClass="NSMutableArray" id="fsE-AB-Rs4"/>
+                        <outletCollection property="digitButtons" destination="yCH-O4-MQ1" collectionClass="NSMutableArray" id="54m-Fq-j8r"/>
+                        <outletCollection property="digitButtons" destination="jox-Np-5a4" collectionClass="NSMutableArray" id="b0C-de-xqo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
