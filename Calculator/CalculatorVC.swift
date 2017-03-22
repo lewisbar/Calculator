@@ -147,12 +147,13 @@ class CalculatorVC: UIViewController {
     }
     
     private func adaptView(to situation: Situation) {
-        let isPending = brain.evaluate().isPending
+        let isPending = brain.resultIsPending
+        var viewsToShow = [UIView]()
         
         func showOnly(_ viewsToShow: [UIView]) {
             for hidableView in hidableViews {
-                let shouldBeShown = viewsToShow.contains(hidableView)
-                UIView.animate(withDuration: 0.5) { hidableView.isHidden = shouldBeShown }
+                let shouldBeHidden = !viewsToShow.contains(hidableView)
+                UIView.animate(withDuration: 0.5) { hidableView.isHidden = shouldBeHidden }
             }
         }
         
@@ -166,50 +167,65 @@ class CalculatorVC: UIViewController {
         
         switch situation {
         case .start:
-            showOnly(digitButtons + constantButtons)
+            print("Start")
+            viewsToShow = digitButtons + constantButtons + [floatingPointButton]
         case .digit:
+            print("Digit")
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
+            if !(display.text?.contains(localDecimalSeparator))! {
+                viewsToShow.append(floatingPointButton)
+            }
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
-            } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, floatingPointButton])
+                print("pending")
+                viewsToShow.append(equalsButton)
             }
         case .floatingPoint:
+            print("Floating Point")
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton])
-            } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton])
+                print("pending")
+                viewsToShow.append(equalsButton)
             }
         case .constant:
+            print("Constant")
+            viewsToShow = binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
             if isPending {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton])
-            } else {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton])
+                print("pending")
+                viewsToShow.append(equalsButton)
             }
         case .unary:
+            print("Unary")
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
             if isPending {
-                showOnly(binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
+                print("pending")
+                viewsToShow = binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton]
             } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
+                viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
             }
             if (displayValue?.isLess(than: 0)) ?? false {
-                hide(squareRootButton)
+                viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
         case .binary:
-            showOnly(digitButtons + constantButtons + [clearButton, floatingPointButton])
+            print("Binary")
+            viewsToShow = digitButtons + constantButtons + [clearButton, floatingPointButton]
         case .equals:
-            showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
             if (displayValue?.isLess(than: 0)) ?? false {
-                hide(squareRootButton)
+                viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
         case .deletedFloatingPoint:
+            print("Deleted Floating Point")
             makeVisible(floatingPointButton)
         case .deletedLastDigit:
+            print("Deleted Last Digit")
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
             if isPending {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, equalsButton, floatingPointButton])
-            } else {
-                showOnly(digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton])
+                print("pending")
+                viewsToShow.append(equalsButton)
             }
         }
+        showOnly(viewsToShow)
+        print("equalsButton is hidden: \(equalsButton.isHidden)")
     }
     
 //    private func hide(_ view: UIView) {
