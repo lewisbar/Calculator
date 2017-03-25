@@ -30,7 +30,7 @@ class CalculatorVC: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
     @IBOutlet weak var descriptionLabel: InsetLabel!    
-    @IBOutlet weak var firstRow: UIStackView!
+    @IBOutlet var buttonRows: [UIStackView]!
     @IBOutlet var digitButtons: [UIButton]!
     @IBOutlet var binaryOperationButtons: [UIButton]!
     @IBOutlet var unaryOperationButtons: [UIButton]!
@@ -46,7 +46,7 @@ class CalculatorVC: UIViewController {
     
     // MARK: Initial Setup
     override func viewDidLoad() {
-        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, equalsButton, floatingPointButton]
+        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, equalsButton, floatingPointButton]
         setup()
     }
     
@@ -151,18 +151,33 @@ class CalculatorVC: UIViewController {
         var viewsToShow = [UIView]()
         
         func showOnly(_ viewsToShow: [UIView]) {
+            func showOnlyNonEmptyStackViews() {
+                func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
+                    for view in stackView.subviews {
+                        if !view.isHidden { return false }
+                    }
+                    return true
+                }
+                
+                for stackView in buttonRows {
+                    stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
+                    //TODO: Animate this?
+                }
+            }
+            
             for hidableView in hidableViews {
                 let shouldBeHidden = !viewsToShow.contains(hidableView)
-                UIView.animate(withDuration: 0.5) { hidableView.isHidden = shouldBeHidden }
+                UIView.animate(withDuration: 0.25) { hidableView.isHidden = shouldBeHidden }
             }
+            showOnlyNonEmptyStackViews()
         }
         
         func makeVisible(_ view: UIView) {
-            UIView.animate(withDuration: 0.5) { view.isHidden = false }
+            UIView.animate(withDuration: 0.25) { view.isHidden = false }
         }
         
         func hide(_ view: UIView) {
-            UIView.animate(withDuration: 0.5) { view.isHidden = true }
+            UIView.animate(withDuration: 0.25) { view.isHidden = true }
         }
         
         switch situation {
@@ -171,7 +186,7 @@ class CalculatorVC: UIViewController {
             viewsToShow = digitButtons + constantButtons + [floatingPointButton]
         case .digit:
             print("Digit")
-            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if !(display.text?.contains(localDecimalSeparator))! {
                 viewsToShow.append(floatingPointButton)
             }
@@ -181,26 +196,25 @@ class CalculatorVC: UIViewController {
             }
         case .floatingPoint:
             print("Floating Point")
-            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
                 print("pending")
                 viewsToShow.append(equalsButton)
             }
         case .constant:
             print("Constant")
-            viewsToShow = binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton]
+            viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
                 print("pending")
                 viewsToShow.append(equalsButton)
             }
         case .unary:
             print("Unary")
-            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
             if isPending {
                 print("pending")
-                viewsToShow = binaryOperationButtons + unaryOperationButtons + [firstRow, clearButton, equalsButton]
+                viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton]
             } else {
-                viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
+                viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             }
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
@@ -209,7 +223,7 @@ class CalculatorVC: UIViewController {
             print("Binary")
             viewsToShow = digitButtons + constantButtons + [clearButton, floatingPointButton]
         case .equals:
-            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
@@ -218,14 +232,14 @@ class CalculatorVC: UIViewController {
             makeVisible(floatingPointButton)
         case .deletedLastDigit:
             print("Deleted Last Digit")
-            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [firstRow, clearButton, floatingPointButton]
+            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if isPending {
                 print("pending")
                 viewsToShow.append(equalsButton)
             }
         }
         showOnly(viewsToShow)
-        print("equalsButton is hidden: \(equalsButton.isHidden)")
+        //print("equalsButton is hidden: \(equalsButton.isHidden)")
     }
     
 //    private func hide(_ view: UIView) {

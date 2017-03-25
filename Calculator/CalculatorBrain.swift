@@ -24,6 +24,7 @@ struct CalculatorBrain {
     
     @available(*, deprecated, message: "Use evaluate().isPending instead.")
     var resultIsPending: Bool {
+        print("isPending:", evaluate().isPending)
         return evaluate().isPending // (pendingBinaryOperation != nil)
     }
     
