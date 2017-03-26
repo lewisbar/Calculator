@@ -32,7 +32,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="105"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="middleTruncation" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="amr-qb-BwS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="293" height="105"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="292" height="105"/>
                                                         <color key="backgroundColor" red="0.1215686275" green="0.37647058820000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name=".SFNSDisplay-Regular" family=".SF NS Display" pointSize="100"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,11 +49,11 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
-                                                        <rect key="frame" x="301" y="0.0" width="58" height="105"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfF-8p-qSQ" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
+                                                        <rect key="frame" x="300" y="0.0" width="59" height="105"/>
                                                         <color key="backgroundColor" red="0.83707848009999997" green="0.073620491920000003" blue="0.073620491920000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                        <state key="normal" title="←">
+                                                        <state key="normal" title="  ←  ">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -61,9 +61,6 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="gfF-8p-qSQ" firstAttribute="width" relation="lessThanOrEqual" secondItem="amr-qb-BwS" secondAttribute="width" multiplier="1:5" id="BkZ-tS-Iy6"/>
-                                                </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="middleTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uKg-K1-JRS" customClass="InsetLabel" customModule="Calculator" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="113" width="359" height="25"/>

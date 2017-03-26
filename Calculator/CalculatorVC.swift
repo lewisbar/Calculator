@@ -160,8 +160,9 @@ class CalculatorVC: UIViewController {
                 }
                 
                 for stackView in buttonRows {
-                    stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
-                    //TODO: Animate this?
+                    UIView.animate(withDuration: 0.25) {
+                        stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
+                    }
                 }
             }
             
