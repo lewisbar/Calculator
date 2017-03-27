@@ -169,7 +169,15 @@ class CalculatorVC: UIViewController {
             
             for hidableView in hidableViews {
                 let shouldBeHidden = !viewsToShow.contains(hidableView)
-                UIView.animate(withDuration: animationDuration) { hidableView.isHidden = shouldBeHidden }
+                // print((hidableView as! UIButton).currentTitle!, "contained in viewsToShow:", viewsToShow.contains(hidableView))
+                // print((hidableView as! UIButton).currentTitle!, "shouldBeHidden:", shouldBeHidden)
+                // This loop is necessary because for some reason, isHidden is not always successfully set to shouldBeHidden
+                while hidableView.isHidden != shouldBeHidden {
+                UIView.animate(withDuration: animationDuration) {
+                    hidableView.isHidden = shouldBeHidden
+                    }
+                }
+                // print((hidableView as! UIButton).currentTitle!, "isHidden:", hidableView.isHidden)
             }
             showOnlyNonEmptyStackViews()
         }
@@ -195,6 +203,7 @@ class CalculatorVC: UIViewController {
             if isPending {
                 print("pending")
                 viewsToShow.append(equalsButton)
+                //viewsToShow.forEach{ print(($0 as! UIButton).currentTitle!) }
             }
         case .floatingPoint:
             print("Floating Point")
