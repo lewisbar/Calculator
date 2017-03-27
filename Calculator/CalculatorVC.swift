@@ -147,6 +147,7 @@ class CalculatorVC: UIViewController {
     }
     
     private func adaptView(to situation: Situation) {
+        let animationDuration = 0.25
         let isPending = brain.resultIsPending
         var viewsToShow = [UIView]()
         
@@ -160,7 +161,7 @@ class CalculatorVC: UIViewController {
                 }
                 
                 for stackView in buttonRows {
-                    UIView.animate(withDuration: 0.25) {
+                    UIView.animate(withDuration: animationDuration) {
                         stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
                     }
                 }
@@ -168,17 +169,17 @@ class CalculatorVC: UIViewController {
             
             for hidableView in hidableViews {
                 let shouldBeHidden = !viewsToShow.contains(hidableView)
-                UIView.animate(withDuration: 0.25) { hidableView.isHidden = shouldBeHidden }
+                UIView.animate(withDuration: animationDuration) { hidableView.isHidden = shouldBeHidden }
             }
             showOnlyNonEmptyStackViews()
         }
         
         func makeVisible(_ view: UIView) {
-            UIView.animate(withDuration: 0.25) { view.isHidden = false }
+            UIView.animate(withDuration: animationDuration) { view.isHidden = false }
         }
         
         func hide(_ view: UIView) {
-            UIView.animate(withDuration: 0.25) { view.isHidden = true }
+            UIView.animate(withDuration: animationDuration) { view.isHidden = true }
         }
         
         switch situation {
