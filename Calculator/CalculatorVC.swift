@@ -240,7 +240,7 @@ class CalculatorVC: UIViewController {
             }
         case .deletedFloatingPoint:
             print("Deleted Floating Point")
-            makeVisible(floatingPointButton)
+            makeVisible(floatingPointButton) // TODO: NO! Because showOnly() is called below and viewsToShow stays empty in this case!
         case .deletedLastDigit:
             print("Deleted Last Digit")
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
