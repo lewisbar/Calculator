@@ -121,7 +121,7 @@ class CalculatorVC: UIViewController {
         
         // Remove last character. If it's a floating point, show the floating point button again.
         if let removedCharacter = display.text?.characters.removeLast(),
-            String(removedCharacter) == localDecimalSeparator { adaptView(to: .deletedFloatingPoint) }
+            String(removedCharacter) == localDecimalSeparator { adaptView(to: .digit) }
         
         if display.text == "" {
             display.text = "0"
@@ -142,7 +142,7 @@ class CalculatorVC: UIViewController {
         case binary
         case equals
         
-        case deletedFloatingPoint
+        // case deletedFloatingPoint
         case deletedLastDigit
     }
     
@@ -238,9 +238,9 @@ class CalculatorVC: UIViewController {
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
-        case .deletedFloatingPoint:
-            print("Deleted Floating Point")
-            makeVisible(floatingPointButton) // TODO: NO! Because showOnly() is called below and viewsToShow stays empty in this case!
+//        case .deletedFloatingPoint:
+//            print("Deleted Floating Point")
+//            makeVisible(floatingPointButton) // TODO: NO! Because showOnly() is called below and viewsToShow stays empty in this case!
         case .deletedLastDigit:
             print("Deleted Last Digit")
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
