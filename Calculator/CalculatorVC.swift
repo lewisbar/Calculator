@@ -56,9 +56,9 @@ class CalculatorVC: UIViewController {
     // MARK: - IBActions
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
+        let textCurrentlyInDisplay = display.text!
         
-        if userIsInTheMiddleOfTyping {
-            let textCurrentlyInDisplay = display.text!
+        if userIsInTheMiddleOfTyping && textCurrentlyInDisplay != "0" { // Because you can start with a 0
             display.text = textCurrentlyInDisplay + digit
         } else {
             display.text = digit
