@@ -9,7 +9,7 @@
 import UIKit
 
 class CalculatorVC: UIViewController {
-
+    
     // MARK: Vars
     private var brain = CalculatorBrain()
     private var userIsInTheMiddleOfTyping = false
@@ -28,7 +28,7 @@ class CalculatorVC: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
-    @IBOutlet weak var descriptionLabel: InsetLabel!    
+    @IBOutlet weak var descriptionLabel: InsetLabel!
     @IBOutlet var buttonRows: [UIStackView]!
     @IBOutlet var digitButtons: [UIButton]!
     @IBOutlet var binaryOperationButtons: [UIButton]!
@@ -80,7 +80,7 @@ class CalculatorVC: UIViewController {
         
         adaptView(to: .floatingPoint)
     }
-
+    
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             if let displayValue = displayValue {
@@ -106,7 +106,7 @@ class CalculatorVC: UIViewController {
             adaptView(to: .binary)
         }
     }
-
+    
     @IBAction func clear(_ sender: UIButton) {
         setup()
         brain = CalculatorBrain()
@@ -169,8 +169,8 @@ class CalculatorVC: UIViewController {
                 let shouldBeHidden = !viewsToShow.contains(hidableView)
                 // This loop is necessary because, for some reason, isHidden is not always successfully set to shouldBeHidden. More precisely: The equalsButton is only made visible after about 3 times. No problems with other buttons. I can't find a difference between the equalsButton and other buttons, though. I thought about deleting and recreating the equalsButton. Maybe I'll try that later and see if I can get rid of this loop then.
                 while hidableView.isHidden != shouldBeHidden {
-                UIView.animate(withDuration: animationDuration) {
-                    hidableView.isHidden = shouldBeHidden
+                    UIView.animate(withDuration: animationDuration) {
+                        hidableView.isHidden = shouldBeHidden
                     }
                 }
             }
