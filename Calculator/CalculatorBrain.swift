@@ -24,8 +24,7 @@ struct CalculatorBrain {
     
     @available(*, deprecated, message: "Use evaluate().isPending instead.")
     var resultIsPending: Bool {
-        print("isPending:", evaluate().isPending)
-        return evaluate().isPending // (pendingBinaryOperation != nil)
+        return evaluate().isPending
     }
     
     mutating func setOperand(_ operand: Double) {
@@ -76,6 +75,7 @@ struct CalculatorBrain {
             if let accumulator = calculation.accumulator {
                 calculation.description = "\(calculation.description) \(symbol)"
                 // TODO: Don't allow multiple binary symbols in a row. This will probably be easier with the new structure that comes in Assignment 2.
+                // Update: This is no longer necessary with the adaptive UI. I might still add it to make the adaptive UI optional.
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator)
             }
         case .equals:

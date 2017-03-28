@@ -14,7 +14,6 @@ class CalculatorVC: UIViewController {
     private var brain = CalculatorBrain()
     private var userIsInTheMiddleOfTyping = false
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
-    //private var hiddenViews = [UIView]()
     private var hidableViews = [UIView]()
     private var displayValue: Double? {
         get {
@@ -142,7 +141,6 @@ class CalculatorVC: UIViewController {
         case binary
         case equals
         
-        // case deletedFloatingPoint
         case deletedLastDigit
     }
     
@@ -169,60 +167,39 @@ class CalculatorVC: UIViewController {
             
             for hidableView in hidableViews {
                 let shouldBeHidden = !viewsToShow.contains(hidableView)
-                // print((hidableView as! UIButton).currentTitle!, "contained in viewsToShow:", viewsToShow.contains(hidableView))
-                // print((hidableView as! UIButton).currentTitle!, "shouldBeHidden:", shouldBeHidden)
-                // This loop is necessary because for some reason, isHidden is not always successfully set to shouldBeHidden
+                // This loop is necessary because, for some reason, isHidden is not always successfully set to shouldBeHidden. More precisely: The equalsButton is only made visible after about 3 times. No problems with other buttons. I can't find a difference between the equalsButton and other buttons, though. I thought about deleting and recreating the equalsButton. Maybe I'll try that later and see if I can get rid of this loop then.
                 while hidableView.isHidden != shouldBeHidden {
                 UIView.animate(withDuration: animationDuration) {
                     hidableView.isHidden = shouldBeHidden
                     }
                 }
-                // print((hidableView as! UIButton).currentTitle!, "isHidden:", hidableView.isHidden)
             }
             showOnlyNonEmptyStackViews()
         }
         
-        func makeVisible(_ view: UIView) {
-            UIView.animate(withDuration: animationDuration) { view.isHidden = false }
-        }
-        
-        func hide(_ view: UIView) {
-            UIView.animate(withDuration: animationDuration) { view.isHidden = true }
-        }
-        
         switch situation {
         case .start:
-            print("Start")
             viewsToShow = digitButtons + constantButtons + [floatingPointButton]
         case .digit:
-            print("Digit")
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if !(display.text?.contains(localDecimalSeparator))! {
                 viewsToShow.append(floatingPointButton)
             }
             if isPending {
-                print("pending")
                 viewsToShow.append(equalsButton)
-                //viewsToShow.forEach{ print(($0 as! UIButton).currentTitle!) }
             }
         case .floatingPoint:
-            print("Floating Point")
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
-                print("pending")
                 viewsToShow.append(equalsButton)
             }
         case .constant:
-            print("Constant")
             viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
-                print("pending")
                 viewsToShow.append(equalsButton)
             }
         case .unary:
-            print("Unary")
             if isPending {
-                print("pending")
                 viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton]
             } else {
                 viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
@@ -231,68 +208,19 @@ class CalculatorVC: UIViewController {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
         case .binary:
-            print("Binary")
             viewsToShow = digitButtons + constantButtons + [clearButton, floatingPointButton]
         case .equals:
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
-//        case .deletedFloatingPoint:
-//            print("Deleted Floating Point")
-//            makeVisible(floatingPointButton) // TODO: NO! Because showOnly() is called below and viewsToShow stays empty in this case!
         case .deletedLastDigit:
-            print("Deleted Last Digit")
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if isPending {
-                print("pending")
                 viewsToShow.append(equalsButton)
             }
         }
         showOnly(viewsToShow)
-        //print("equalsButton is hidden: \(equalsButton.isHidden)")
     }
-    
-//    private func hide(_ view: UIView) {
-//        if !hiddenViews.contains(view) {
-//            UIView.animate(withDuration: 0.5) { view.isHidden = true }
-//            hiddenViews.append(view)
-//        }
-//    }
-    
-//    private func hide(_ views: [UIView]) {
-//        views.forEach {
-//            hide($0)
-//        }
-//    }
-    
-//    private func hideAll(except viewsToKeepVisible: [UIView]) {
-//        hiddenViews.forEach {
-//            if !viewsToKeepVisible.contains($0) {
-//                show($0)
-//            }
-//        }
-//    }
-    
-//    private func show(_ view: UIView) {
-//        if hiddenViews.contains(view) {
-//            UIView.animate(withDuration: 0.5) { view.isHidden = false }
-//            hiddenViews.remove(at: hiddenViews.index(of: view)!)
-//        }
-//    }
-    
-//    private func show(_ views: [UIView]) {
-//        views.forEach {
-//            show($0)
-//        }
-//    }
-//    
-//    private func showAll(except viewsToKeepHidden: [UIView]) {
-//        hiddenViews.forEach {
-//            if !viewsToKeepHidden.contains($0) {
-//                show($0)
-//            }
-//        }
-//    }
 }
 
