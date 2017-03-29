@@ -130,6 +130,8 @@ class CalculatorVC: UIViewController {
     }
     
     // MARK: - Showing and Hiding Views
+    private let animationDuration = 0.25
+    
     private enum Situation {
         case start
         
@@ -145,46 +147,9 @@ class CalculatorVC: UIViewController {
     }
     
     private func adaptView(to situation: Situation) {
-        let animationDuration = 0.25
         let isPending = brain.resultIsPending
         var viewsToShow = [UIView]()
         
-        // helper method for adaptView(to:)
-        func showOnly(_ viewsToShow: [UIView]) {
-            
-            // helper method for showOnly(_:)
-            func showOnlyNonEmptyStackViews() {
-                
-                // helper method for showOnlyNonEmptyStackViews()
-                func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
-                    for view in stackView.subviews {
-                        if !view.isHidden { return false }
-                    }
-                    return true
-                }
-                
-                // implementation of showOnlyNonEmptyStackViews()
-                for stackView in buttonRows {
-                    UIView.animate(withDuration: animationDuration) {
-                        stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
-                    }
-                }
-            }
-            
-            // implementation of showOnly(_:)
-            for hidableView in hidableViews {
-                let shouldBeHidden = !viewsToShow.contains(hidableView)
-                // This loop is necessary because, for some reason, isHidden is not always successfully set to shouldBeHidden. More precisely: The equalsButton is only made visible after about 3 times. No problems with other buttons. I can't find a difference between the equalsButton and other buttons, though. I thought about deleting and recreating the equalsButton. Maybe I'll try that later and see if I can get rid of this loop then.
-                while hidableView.isHidden != shouldBeHidden {
-                    UIView.animate(withDuration: animationDuration) {
-                        hidableView.isHidden = shouldBeHidden
-                    }
-                }
-            }
-            showOnlyNonEmptyStackViews()
-        }
-        
-        // implementation of adaptView(to:)
         switch situation {
         case .start:
             viewsToShow = digitButtons + constantButtons + [floatingPointButton]
@@ -229,6 +194,39 @@ class CalculatorVC: UIViewController {
             }
         }
         showOnly(viewsToShow)
+    }
+    
+    // helper method for adaptView(to:)
+    private func showOnly(_ viewsToShow: [UIView]) {
+        for hidableView in hidableViews {
+            let shouldBeHidden = !viewsToShow.contains(hidableView)
+            // This loop is necessary because, for some reason, isHidden is not always successfully set to shouldBeHidden. More precisely: The equalsButton is only made visible after about 3 times. No problems with other buttons. I can't find a difference between the equalsButton and other buttons, though. I thought about deleting and recreating the equalsButton. Maybe I'll try that later and see if I can get rid of this loop then.
+            while hidableView.isHidden != shouldBeHidden {
+                UIView.animate(withDuration: animationDuration) {
+                    hidableView.isHidden = shouldBeHidden
+                }
+            }
+        }
+        showOnlyNonEmptyStackViews()
+    }
+    
+    // helper method for showOnly(_:)
+    private func showOnlyNonEmptyStackViews() {
+        
+        // helper method for showOnlyNonEmptyStackViews()
+        func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
+            for view in stackView.subviews {
+                if !view.isHidden { return false }
+            }
+            return true
+        }
+        
+        // implementation of showOnlyNonEmptyStackViews()
+        for stackView in buttonRows {
+            UIView.animate(withDuration: animationDuration) {
+                stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
+            }
+        }
     }
 }
 
