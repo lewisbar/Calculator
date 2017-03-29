@@ -151,8 +151,10 @@ class CalculatorVC: UIViewController {
         var viewsToShow = [UIView]()
         
         switch situation {
+            
         case .start:
             viewsToShow = digitButtons + constantButtons + [floatingPointButton]
+            
         case .digit:
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if !(display.text?.contains(localDecimalSeparator))! {
@@ -161,16 +163,19 @@ class CalculatorVC: UIViewController {
             if isPending {
                 viewsToShow.append(equalsButton)
             }
+            
         case .floatingPoint:
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
                 viewsToShow.append(equalsButton)
             }
+            
         case .constant:
             viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton]
             if isPending {
                 viewsToShow.append(equalsButton)
             }
+            
         case .unary:
             if isPending {
                 viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton]
@@ -180,19 +185,23 @@ class CalculatorVC: UIViewController {
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
+            
         case .binary:
             viewsToShow = digitButtons + constantButtons + [clearButton, floatingPointButton]
+        
         case .equals:
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if (displayValue?.isLess(than: 0)) ?? false {
                 viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
             }
+        
         case .deletedLastDigit:
             viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
             if isPending {
                 viewsToShow.append(equalsButton)
             }
         }
+        
         showOnly(viewsToShow)
     }
     
