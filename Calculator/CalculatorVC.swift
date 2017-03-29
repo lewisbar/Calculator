@@ -212,21 +212,19 @@ class CalculatorVC: UIViewController {
     
     // helper method for showOnly(_:)
     private func showOnlyNonEmptyStackViews() {
-        
-        // helper method for showOnlyNonEmptyStackViews()
-        func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
-            for view in stackView.subviews {
-                if !view.isHidden { return false }
-            }
-            return true
-        }
-        
-        // implementation of showOnlyNonEmptyStackViews()
         for stackView in buttonRows {
             UIView.animate(withDuration: animationDuration) {
-                stackView.isHidden = stackViewWillBeVisuallyEmpty(stackView)
+                stackView.isHidden = self.stackViewWillBeVisuallyEmpty(stackView)
             }
         }
+    }
+    
+    // helper method for showOnlyNonEmptyStackViews()
+    private func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
+        for view in stackView.subviews {
+            if !view.isHidden { return false }
+        }
+        return true
     }
 }
 
