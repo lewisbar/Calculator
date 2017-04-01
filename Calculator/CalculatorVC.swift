@@ -154,7 +154,11 @@ class CalculatorVC: UIViewController {
             self.constantButtons.forEach { $0.isHidden = !self.shouldShowConstantButtons(in: situation) }
             self.floatingPointButton.isHidden = !self.shouldShowFloatingPointButton(in: situation)
             self.clearButton.isHidden = !self.shouldShowClearButton(in: situation)
-            self.equalsButton.isHidden = !self.shouldShowEqualsButton(in: situation)
+            
+            // This loop is a workaround for a bug I don't understand yet. The equals button seems equal (pun intended) to all the other buttons, yet it's the only one that needs three calls to finally show up again. I tried changing the order of the buttons, deleting and recreating the button and changing its colors to be exactly like the others. It all made no difference.
+            while self.equalsButton.isHidden == self.shouldShowEqualsButton(in: situation) {
+                self.equalsButton.isHidden = !self.shouldShowEqualsButton(in: situation)
+            }
             
             if (self.displayValue?.isLess(than: 0)) ?? true {
                 self.squareRootButton.isHidden = true
