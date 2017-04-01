@@ -14,7 +14,7 @@ class CalculatorVC: UIViewController {
     private var brain = CalculatorBrain()
     private var userIsInTheMiddleOfTyping = false
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
-    // private var hidableViews = [UIView]()
+    private var uiIsAdaptive = true
     private var displayValue: Double? {
         get {
             let formatter = NumberFormatter()
@@ -129,6 +129,21 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
+    private var currentSituation = Situation.start
+    override var canBecomeFirstResponder: Bool { return true }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            uiIsAdaptive = !uiIsAdaptive
+        }
+        if !uiIsAdaptive {
+            adaptView(to: .nonAdaptiveUI)
+        } else {
+            adaptView(to: currentSituation)
+        }
+    }
+    
     // MARK: - Showing and Hiding Views
     private let animationDuration = 0.25
     
@@ -144,9 +159,14 @@ class CalculatorVC: UIViewController {
         case equals
         
         case deletedLastDigit
+        
+        case nonAdaptiveUI
     }
     
     private func adaptView(to situation: Situation) {
+        currentSituation = situation
+        guard uiIsAdaptive else { return }
+        
         UIView.animate(withDuration: animationDuration) {
             self.digitButtons.forEach { $0.isHidden = !self.shouldShowDigitButtons(in: situation) }
             self.binaryOperationButtons.forEach { $0.isHidden = !self.shouldShowBinaryOperationButtons(in: situation) }
@@ -194,6 +214,7 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -207,6 +228,7 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -220,6 +242,7 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -233,6 +256,7 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -246,6 +270,7 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -259,6 +284,7 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
+        case .nonAdaptiveUI: return true
         }
     }
     
@@ -272,97 +298,8 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return false
         case .deletedLastDigit: return brain.evaluate().isPending ? true : false
+        case .nonAdaptiveUI: return true
         }
     }
 }
-
-//    private func adaptView(to situation: Situation) {
-//        let isPending = brain.resultIsPending
-//        var viewsToShow = [UIView]()
-//        
-//        switch situation {
-//            
-//        case .start:
-//            viewsToShow = digitButtons + constantButtons + [floatingPointButton]
-//            
-//        case .digit:
-//            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
-//            if !(display.text?.contains(localDecimalSeparator))! {
-//                viewsToShow.append(floatingPointButton)
-//            }
-//            if isPending {
-//                viewsToShow.append(equalsButton)
-//            }
-//            
-//        case .floatingPoint:
-//            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + [clearButton]
-//            if isPending {
-//                viewsToShow.append(equalsButton)
-//            }
-//            
-//        case .constant:
-//            viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton]
-//            if isPending {
-//                viewsToShow.append(equalsButton)
-//            }
-//            
-//        case .unary:
-//            if isPending {
-//                viewsToShow = binaryOperationButtons + unaryOperationButtons + [clearButton, equalsButton]
-//            } else {
-//                viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
-//            }
-//            if (displayValue?.isLess(than: 0)) ?? false {
-//                viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
-//            }
-//            
-//        case .binary:
-//            viewsToShow = digitButtons + constantButtons + [clearButton, floatingPointButton]
-//        
-//        case .equals:
-//            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
-//            if (displayValue?.isLess(than: 0)) ?? false {
-//                viewsToShow.remove(at: viewsToShow.index(of:squareRootButton)!)
-//            }
-//        
-//        case .deletedLastDigit:
-//            viewsToShow = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, floatingPointButton]
-//            if isPending {
-//                viewsToShow.append(equalsButton)
-//            }
-//        }
-//        
-//        showOnly(viewsToShow)
-//    }
-//    
-//    // helper method for adaptView(to:)
-//    private func showOnly(_ viewsToShow: [UIView]) {
-//        for hidableView in hidableViews {
-//            let shouldBeHidden = !viewsToShow.contains(hidableView)
-//            // This loop is necessary because, for some reason, isHidden is not always successfully set to shouldBeHidden. More precisely: The equalsButton is only made visible after about 3 times. No problems with other buttons. I can't find a difference between the equalsButton and other buttons, though. I thought about deleting and recreating the equalsButton. Maybe I'll try that later and see if I can get rid of this loop then.
-//            while hidableView.isHidden != shouldBeHidden {
-//                UIView.animate(withDuration: animationDuration) {
-//                    hidableView.isHidden = shouldBeHidden
-//                }
-//            }
-//        }
-//        showOnlyNonEmptyStackViews()
-//    }
-//    
-//    // helper method for showOnly(_:)
-//    private func showOnlyNonEmptyStackViews() {
-//        for stackView in buttonRows {
-//            UIView.animate(withDuration: animationDuration) {
-//                stackView.isHidden = self.stackViewWillBeVisuallyEmpty(stackView)
-//            }
-//        }
-//    }
-//    
-//    // helper method for showOnlyNonEmptyStackViews()
-//    private func stackViewWillBeVisuallyEmpty(_ stackView: UIStackView) -> Bool {
-//        for view in stackView.subviews {
-//            if !view.isHidden { return false }
-//        }
-//        return true
-//    }
 
