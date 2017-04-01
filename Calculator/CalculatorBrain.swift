@@ -11,50 +11,75 @@ import Foundation
 struct CalculatorBrain {
     
     // MARK: - Public API
+    @available(*, deprecated, message: "Use evaluate().result instead.")
     var result: Double? {
-        return calculation.accumulator
+        return evaluate().result // calculation.accumulator
     }
     
+    @available(*, deprecated, message: "Use evaluate().description instead.")
     var description: String { // Shows what led to the current result
-        let endSymbol = resultIsPending ? " ..." : " ="
-        return calculation.description + endSymbol
+        // let endSymbol = resultIsPending ? " ..." : " ="
+        return evaluate().description // calculation.description + endSymbol
+    }
+    
+    @available(*, deprecated, message: "Use evaluate().isPending instead.")
+    var resultIsPending: Bool {
+        return evaluate().isPending
     }
     
     mutating func setOperand(_ operand: Double) {
         let oldDescription = calculation.description
-        let newDescription = resultIsPending ? "\(oldDescription) \(operand.decimalFormat)" : "\(operand.decimalFormat)"
+        let newDescription = evaluate().isPending ? "\(oldDescription) \(operand.decimalFormat)" : "\(operand.decimalFormat)"
         calculation = (accumulator: operand, description: newDescription)
+    }
+    
+    func setOperand(variable named: String) {
+        // TODO
+    }
+    
+    func evaluate(using variables: Dictionary<String,Double>? = nil)
+        -> (result: Double?, isPending: Bool, description: String) {
+            // TODO
+            let result: Double? = calculation.accumulator
+            let isPending = pendingBinaryOperation != nil
+            let endSymbol = isPending ? " ..." : " ="
+            let description = calculation.description + endSymbol
+            return (result, isPending, description)
     }
     
     mutating func performOperation(_ symbol: String) {
         // TODO: Multiplication and division should be performed first. This will probably be easier with the new structure that comes in Assignment 2.
-        let operation = operations[symbol]!
+        guard let operation = operations[symbol] else {
+            print("Operation \(symbol) not supplied.")
+            return
+        }
         
         switch operation {
         case .constant(let value):
             let oldDescription = calculation.description
-            let newDescription = resultIsPending ? "\(oldDescription) \(symbol)" : "\(symbol)"
+            let newDescription = evaluate().isPending ? "\(oldDescription) \(symbol)" : "\(symbol)"
             calculation = (accumulator: value, description: newDescription)
         case .unary(let function):
             if let accumulator = calculation.accumulator {
                 let oldDescription = calculation.description
-                let newDescription = resultIsPending ?
+                let newDescription = evaluate().isPending ?
                                 oldDescription.surroundingLastWord(with: "\(symbol)(", and: ")")
                                 : "\(symbol)(\(oldDescription))"
                 let newAccumulator = function(accumulator)
                 calculation = (newAccumulator, newDescription)
             }
         case .binary(let function):
-            if resultIsPending {
+            if evaluate().isPending {
                 performBinaryOperation()
             }
             if let accumulator = calculation.accumulator {
                 calculation.description = "\(calculation.description) \(symbol)"
                 // TODO: Don't allow multiple binary symbols in a row. This will probably be easier with the new structure that comes in Assignment 2.
+                // Update: This is no longer necessary with the adaptive UI. I might still add it to make the adaptive UI optional.
                 pendingBinaryOperation = PendingBinaryOperation(operation: function, firstOperand: accumulator)
             }
         case .equals:
-            if resultIsPending {
+            if evaluate().isPending {
                 performBinaryOperation()
             }
         }
@@ -63,9 +88,6 @@ struct CalculatorBrain {
     // MARK: - Private Implementation
     private var calculation: (accumulator: Double?, description: String) = (nil, " ")
     private var pendingBinaryOperation: PendingBinaryOperation?
-    private var resultIsPending: Bool {
-        return (pendingBinaryOperation != nil)
-    }
 
     private enum Operation {
         case constant(Double)

@@ -21,9 +21,9 @@ extension String {
         return self.replacingCharacters(in: range, with: newSuffix)
     }
     
-    public func surroundingLastWord(with part1: String, and part2: String) -> String {
+    public func surroundingLastWord(with prefix: String, and suffix: String) -> String {
         let lastWord = self.components(separatedBy: " ").last!
-        return self.replacingSuffix(lastWord, with: "\(part1)\(lastWord)\(part2)")
+        return self.replacingSuffix(lastWord, with: "\(prefix)\(lastWord)\(suffix)")
     }
     
 }
