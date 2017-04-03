@@ -14,7 +14,6 @@ class CalculatorVC: UIViewController {
     private var brain = CalculatorBrain()
     private var userIsInTheMiddleOfTyping = false
     private let localDecimalSeparator = (NSLocale.current.decimalSeparator as String?) ?? "."
-    private var uiIsAdaptive = true
     private var displayValue: Double? {
         get {
             let formatter = NumberFormatter()
@@ -130,17 +129,19 @@ class CalculatorVC: UIViewController {
     }
     
     // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
+    private var uiIsAdaptive = true
     private var currentSituation = Situation.start
     override var canBecomeFirstResponder: Bool { return true }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             uiIsAdaptive = !uiIsAdaptive
-        }
-        if !uiIsAdaptive {
-            adaptView(to: .nonAdaptiveUI)
-        } else {
-            adaptView(to: currentSituation)
+            
+            if uiIsAdaptive {
+                adaptView(to: currentSituation)
+            } else {
+                adaptView(to: .nonAdaptiveUI)
+            }
         }
     }
     
@@ -164,8 +165,13 @@ class CalculatorVC: UIViewController {
     }
     
     private func adaptView(to situation: Situation) {
-        currentSituation = situation
-        guard uiIsAdaptive else { return }
+        if situation != .nonAdaptiveUI {
+            currentSituation = situation
+        }
+        var situation = situation
+        if !uiIsAdaptive && situation != .nonAdaptiveUI {
+            situation = .nonAdaptiveUI
+        }
         
         UIView.animate(withDuration: animationDuration) {
             self.digitButtons.forEach { $0.isHidden = !self.shouldShowDigitButtons(in: situation) }
@@ -180,7 +186,8 @@ class CalculatorVC: UIViewController {
                 self.equalsButton.isHidden = !self.shouldShowEqualsButton(in: situation)
             }
             
-            if (self.displayValue?.isLess(than: 0)) ?? true {
+            
+            if self.uiIsAdaptive && (self.displayValue?.isLess(than: 0)) ?? false {
                 self.squareRootButton.isHidden = true
             }
             
