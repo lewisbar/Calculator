@@ -136,12 +136,7 @@ class CalculatorVC: UIViewController {
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             uiIsAdaptive = !uiIsAdaptive
-            
-            if uiIsAdaptive {
-                adaptView(to: currentSituation)
-            } else {
-                adaptView(to: .nonAdaptiveUI)
-            }
+            adaptView(to: currentSituation)
         }
     }
     
@@ -160,17 +155,13 @@ class CalculatorVC: UIViewController {
         case equals
         
         case deletedLastDigit
-        
-        case nonAdaptiveUI
     }
     
     private func adaptView(to situation: Situation) {
-        if situation != .nonAdaptiveUI {
-            currentSituation = situation
-        }
-        var situation = situation
-        if !uiIsAdaptive && situation != .nonAdaptiveUI {
-            situation = .nonAdaptiveUI
+        currentSituation = situation
+        if !uiIsAdaptive {
+            adaptViewToNonAdaptive()
+            return
         }
         
         UIView.animate(withDuration: animationDuration) {
@@ -189,6 +180,24 @@ class CalculatorVC: UIViewController {
             
             if self.uiIsAdaptive && (self.displayValue?.isLess(than: 0)) ?? false {
                 self.squareRootButton.isHidden = true
+            }
+            
+            self.showOnlyNonEmptyStackViews()
+        }
+    }
+    
+    private func adaptViewToNonAdaptive() {
+        UIView.animate(withDuration: animationDuration) {
+            self.digitButtons.forEach { $0.isHidden = false }
+            self.binaryOperationButtons.forEach { $0.isHidden = false }
+            self.unaryOperationButtons.forEach { $0.isHidden = false }
+            self.constantButtons.forEach { $0.isHidden = false }
+            self.floatingPointButton.isHidden = false
+            self.clearButton.isHidden = false
+            
+            // This loop is a workaround for a bug I don't understand yet. The equals button seems equal (pun intended) to all the other buttons, yet it's the only one that needs three calls to finally show up again. I tried changing the order of the buttons, deleting and recreating the button and changing its colors to be exactly like the others. It all made no difference.
+            while self.equalsButton.isHidden == true {
+                self.equalsButton.isHidden = false
             }
             
             self.showOnlyNonEmptyStackViews()
@@ -221,7 +230,6 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -235,7 +243,6 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -249,7 +256,6 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -263,7 +269,6 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -277,7 +282,6 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -291,7 +295,6 @@ class CalculatorVC: UIViewController {
         case .binary: return true
         case .equals: return true
         case .deletedLastDigit: return true
-        case .nonAdaptiveUI: return true
         }
     }
     
@@ -305,7 +308,6 @@ class CalculatorVC: UIViewController {
         case .binary: return false
         case .equals: return false
         case .deletedLastDigit: return brain.evaluate().isPending ? true : false
-        case .nonAdaptiveUI: return true
         }
     }
 }
