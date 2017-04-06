@@ -89,10 +89,10 @@ class CalculatorVC: UIViewController {
             userIsInTheMiddleOfTyping = false
         }
         brain.performOperation(sender.currentTitle!)
-        if let result = brain.result {
+        if let result = brain.evaluate().result {
             displayValue = result
         }
-        descriptionLabel.text = brain.description
+        descriptionLabel.text = brain.evaluate().description
         
         // Show and hide views adapting to the situation
         if sender == equalsButton {
