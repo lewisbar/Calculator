@@ -24,10 +24,12 @@ class CalculatorVC: UIViewController {
             self.display.text = newValue?.decimalFormat
         }
     }
+    private var hidableViews: Array<T: UIView where T: Hidable>
     
     // MARK: - IBOutlets
     @IBOutlet weak var display: InsetLabel!
     @IBOutlet weak var descriptionLabel: InsetLabel!
+    @IBOutlet weak var mLabel: InsetLabel!
     @IBOutlet var buttonRows: [UIStackView]!
     @IBOutlet var digitButtons: [UIButton]!
     @IBOutlet var binaryOperationButtons: [UIButton]!
@@ -44,14 +46,10 @@ class CalculatorVC: UIViewController {
     
     // MARK: Initial Setup
     override func viewDidLoad() {
-        // hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, equalsButton, floatingPointButton]
-        setup()
-    }
-    
-    private func setup() {
+        hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, equalsButton, floatingPointButton]
         adaptView(to: .start)
     }
-    
+
     // MARK: - IBActions
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
@@ -107,7 +105,7 @@ class CalculatorVC: UIViewController {
     }
     
     @IBAction func clear(_ sender: UIButton) {
-        setup()
+        adaptView(to: .start)
         brain = CalculatorBrain()
         display.text = "0"
         descriptionLabel.text = " "
@@ -128,6 +126,13 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    @IBAction func setM(_ sender: UIButton) {
+    }
+    
+    @IBAction func getM(_ sender: UIButton) {
+    }
+    
+    
     // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
     private var uiIsAdaptive = true
     private var currentSituation = Situation.start
@@ -143,19 +148,19 @@ class CalculatorVC: UIViewController {
     // MARK: - Showing and Hiding Views
     private let animationDuration = 0.25
     
-    private enum Situation {
-        case start
-        
-        case digit
-        case floatingPoint
-        
-        case constant
-        case unary
-        case binary
-        case equals
-        
-        case deletedLastDigit
-    }
+//    enum Situation {
+//        case start
+//        
+//        case digit
+//        case floatingPoint
+//        
+//        case constant
+//        case unary
+//        case binary
+//        case equals
+//        
+//        case deletedLastDigit
+//    }
     
     private func adaptView(to situation: Situation) {
         currentSituation = situation
@@ -165,26 +170,47 @@ class CalculatorVC: UIViewController {
         }
         
         UIView.animate(withDuration: animationDuration) {
-            self.digitButtons.forEach { $0.isHidden = !self.shouldShowDigitButtons(in: situation) }
-            self.binaryOperationButtons.forEach { $0.isHidden = !self.shouldShowBinaryOperationButtons(in: situation) }
-            self.unaryOperationButtons.forEach { $0.isHidden = !self.shouldShowUnaryOperationButtons(in: situation) }
-            self.constantButtons.forEach { $0.isHidden = !self.shouldShowConstantButtons(in: situation) }
-            self.floatingPointButton.isHidden = !self.shouldShowFloatingPointButton(in: situation)
-            self.clearButton.isHidden = !self.shouldShowClearButton(in: situation)
-            
-            // This loop is a workaround for a bug I don't understand yet. The equals button seems equal (pun intended) to all the other buttons, yet it's the only one that needs three calls to finally show up again. I tried changing the order of the buttons, deleting and recreating the button and changing its colors to be exactly like the others. It all made no difference.
-            while self.equalsButton.isHidden == self.shouldShowEqualsButton(in: situation) {
-                self.equalsButton.isHidden = !self.shouldShowEqualsButton(in: situation)
+            for view in self.hidableViews {
+                if view is Hidable {
+                    hidableView.isHidden = !hidableView.shouldShow[situation] ?? false
+                }
             }
-            
-            
-            if self.uiIsAdaptive && (self.displayValue?.isLess(than: 0)) ?? false {
+            if self.displayValue?.isLess(than: 0) ?? false {
                 self.squareRootButton.isHidden = true
             }
             
             self.showOnlyNonEmptyStackViews()
         }
     }
+    
+//    private func adaptViewOld(to situation: Situation) {
+//        currentSituation = situation
+//        if !uiIsAdaptive {
+//            adaptViewToNonAdaptive()
+//            return
+//        }
+//        
+//        UIView.animate(withDuration: animationDuration) {
+//            self.digitButtons.forEach { $0.isHidden = !self.shouldShowDigitButtons(in: situation) }
+//            self.binaryOperationButtons.forEach { $0.isHidden = !self.shouldShowBinaryOperationButtons(in: situation) }
+//            self.unaryOperationButtons.forEach { $0.isHidden = !self.shouldShowUnaryOperationButtons(in: situation) }
+//            self.constantButtons.forEach { $0.isHidden = !self.shouldShowConstantButtons(in: situation) }
+//            self.floatingPointButton.isHidden = !self.shouldShowFloatingPointButton(in: situation)
+//            self.clearButton.isHidden = !self.shouldShowClearButton(in: situation)
+//            
+//            // This loop is a workaround for a bug I don't understand yet. The equals button seems equal (pun intended) to all the other buttons, yet it's the only one that needs three calls to finally show up again. I tried changing the order of the buttons, deleting and recreating the button and changing its colors to be exactly like the others. It all made no difference.
+//            while self.equalsButton.isHidden == self.shouldShowEqualsButton(in: situation) {
+//                self.equalsButton.isHidden = !self.shouldShowEqualsButton(in: situation)
+//            }
+//            
+//            
+//            if self.uiIsAdaptive && (self.displayValue?.isLess(than: 0)) ?? false {
+//                self.squareRootButton.isHidden = true
+//            }
+//            
+//            self.showOnlyNonEmptyStackViews()
+//        }
+//    }
     
     private func adaptViewToNonAdaptive() {
         UIView.animate(withDuration: animationDuration) {
@@ -218,6 +244,10 @@ class CalculatorVC: UIViewController {
         }
         return true
     }
+    
+//    private func shouldShow(_ view: Hidable, in situation: Situation) -> Bool {
+//        return view.shouldShow[situation] ?? true
+//    }
     
     // MARK: - Button Visibility Settings
     private func shouldShowDigitButtons(in situation: Situation) -> Bool {
@@ -311,4 +341,3 @@ class CalculatorVC: UIViewController {
         }
     }
 }
-
