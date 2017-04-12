@@ -45,10 +45,6 @@ class CalculatorVC: UIViewController {
     // MARK: Initial Setup
     override func viewDidLoad() {
         // hidableViews = digitButtons + binaryOperationButtons + unaryOperationButtons + constantButtons + [clearButton, equalsButton, floatingPointButton]
-        setup()
-    }
-    
-    private func setup() {
         adaptView(to: .start)
     }
     
@@ -107,7 +103,7 @@ class CalculatorVC: UIViewController {
     }
     
     @IBAction func clear(_ sender: UIButton) {
-        setup()
+        adaptView(to: .start)
         brain = CalculatorBrain()
         display.text = "0"
         descriptionLabel.text = " "
