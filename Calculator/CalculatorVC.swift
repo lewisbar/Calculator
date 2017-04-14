@@ -124,6 +124,14 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    @IBAction func setM(_ sender: UIButton) {
+        
+    }
+
+    @IBAction func getM(_ sender: UIButton) {
+        
+    }
+    
     // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
     private var uiIsAdaptive = true
     private var currentSituation = Situation.start

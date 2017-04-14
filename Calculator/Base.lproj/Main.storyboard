@@ -96,6 +96,9 @@
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                         <state key="normal" title="↦M"/>
+                                                        <connections>
+                                                            <action selector="setM:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jdf-M5-9BL"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLY-zO-n2n" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
                                                         <rect key="frame" x="61" y="0.0" width="53.5" height="90"/>
@@ -154,6 +157,9 @@
                                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                         <state key="normal" title="M"/>
+                                                        <connections>
+                                                            <action selector="getM:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l84-rm-tLY"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grb-mL-di3" customClass="RoundedButton" customModule="Calculator" customModuleProvider="target">
                                                         <rect key="frame" x="61" y="0.0" width="53.5" height="90.5"/>
