@@ -124,12 +124,17 @@ class CalculatorVC: UIViewController {
         }
     }
     
+    // MARK: M
+    private var m: Dictionary<String, Double>?
+    
     @IBAction func setM(_ sender: UIButton) {
-        
+        m = ["M":displayValue!]
+        displayValue = brain.evaluate(using: m).result
     }
 
-    @IBAction func getM(_ sender: UIButton) {
-        
+    @IBAction func m(_ sender: UIButton) {
+        brain.setOperand(variable: "M")
+        displayValue = brain.evaluate(using: m).result
     }
     
     // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
