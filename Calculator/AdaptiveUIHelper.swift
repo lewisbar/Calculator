@@ -44,7 +44,7 @@ extension CalculatorVC {
             }
             
             
-            if self.uiIsAdaptive && (self.displayValue?.isLess(than: 0)) ?? false {
+            if self.displayValue?.isLess(than: 0) ?? false {
                 self.squareRootButton.isHidden = true
             }
             
