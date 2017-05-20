@@ -9,7 +9,6 @@
 import UIKit
 
 extension CalculatorVC {
-    // MARK: - Button Visibility Settings
     func shouldShowDigitButtons(in situation: Situation) -> Bool {
         switch situation {
         case .start: return true
