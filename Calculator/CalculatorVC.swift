@@ -136,17 +136,4 @@ class CalculatorVC: UIViewController {
         brain.setOperand(variable: "M")
         displayValue = brain.evaluate(using: m).result
     }
-    
-    // TODO: Should some of this be moved into AdaptiveUIHelper?
-    // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
-    var uiIsAdaptive = true
-    var currentSituation = Situation.start
-    override var canBecomeFirstResponder: Bool { return true }
-    
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            uiIsAdaptive = !uiIsAdaptive
-            adaptView(to: currentSituation)
-        }
-    }
 }

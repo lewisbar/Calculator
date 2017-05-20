@@ -8,24 +8,40 @@
 
 import UIKit
 
+struct AdaptiveUIState {
+    static var uiIsAdaptive = true
+    static var currentSituation = Situation.start
+}
+
+enum Situation {
+    case start
+    
+    case digit
+    case floatingPoint
+    
+    case constant
+    case unary
+    case binary
+    case equals
+    
+    case deletedLastDigit
+}
+
 extension CalculatorVC {
-    enum Situation {
-        case start
-        
-        case digit
-        case floatingPoint
-        
-        case constant
-        case unary
-        case binary
-        case equals
-        
-        case deletedLastDigit
+    // MARK: - Detect Shake Gesture to Toggle Adaptive Interface
+    override var canBecomeFirstResponder: Bool { return true }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            AdaptiveUIState.uiIsAdaptive = !AdaptiveUIState.uiIsAdaptive
+            adaptView(to: AdaptiveUIState.currentSituation)
+        }
     }
     
+    // MARK: - Main Adaption Function
     func adaptView(to situation: Situation) {
-        currentSituation = situation
-        if !uiIsAdaptive {
+        AdaptiveUIState.currentSituation = situation
+        if !AdaptiveUIState.uiIsAdaptive {
             adaptViewToNonAdaptive()
             return
         }
@@ -86,97 +102,5 @@ extension CalculatorVC {
             if !view.isHidden { return false }
         }
         return true
-    }
-    
-    // MARK: - Button Visibility Settings
-    private func shouldShowDigitButtons(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return true
-        case .digit: return true
-        case .floatingPoint: return true
-        case .constant: return false
-        case .unary: return brain.evaluate().isPending ? false : true
-        case .binary: return true
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowBinaryOperationButtons(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return false
-        case .digit: return true
-        case .floatingPoint: return true
-        case .constant: return true
-        case .unary: return true
-        case .binary: return false
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowUnaryOperationButtons(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return false
-        case .digit: return true
-        case .floatingPoint: return true
-        case .constant: return true
-        case .unary: return true
-        case .binary: return false
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowConstantButtons(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return true
-        case .digit: return false
-        case .floatingPoint: return false
-        case .constant: return false
-        case .unary: return brain.evaluate().isPending ? false : true
-        case .binary: return true
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowFloatingPointButton(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return true
-        case .digit: return (display.text?.contains(localDecimalSeparator))! ? false : true
-        case .floatingPoint: return true
-        case .constant: return false
-        case .unary: return brain.evaluate().isPending ? false : true
-        case .binary: return true
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowClearButton(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return false
-        case .digit: return true
-        case .floatingPoint: return true
-        case .constant: return true
-        case .unary: return true
-        case .binary: return true
-        case .equals: return true
-        case .deletedLastDigit: return true
-        }
-    }
-    
-    private func shouldShowEqualsButton(in situation: Situation) -> Bool {
-        switch situation {
-        case .start: return false
-        case .digit: return brain.evaluate().isPending ? true : false
-        case .floatingPoint: return brain.evaluate().isPending ? true : false
-        case .constant: return brain.evaluate().isPending ? true : false
-        case .unary: return brain.evaluate().isPending ? true : false
-        case .binary: return false
-        case .equals: return false
-        case .deletedLastDigit: return brain.evaluate().isPending ? true : false
-        }
     }
 }
