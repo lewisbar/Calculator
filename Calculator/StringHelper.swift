@@ -1,5 +1,5 @@
 //
-//  String+Extension.swift
+//  StringHelper.swift
 //  Calculator
 //
 //  Created by Lennart Wisbar on 08.03.17.

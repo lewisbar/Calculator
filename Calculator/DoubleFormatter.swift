@@ -1,5 +1,5 @@
 //
-//  Double+Extension.swift
+//  DoubleFormatter.swift
 //  Calculator
 //
 //  Created by Lennart Wisbar on 08.03.17.

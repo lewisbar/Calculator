@@ -1,5 +1,5 @@
 //
-//  AdaptiveUIHelper.swift
+//  UIAdaptor.swift
 //  Calculator
 //
 //  Created by Lennart Wisbar on 20.05.17.
